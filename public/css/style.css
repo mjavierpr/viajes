@@ -1,0 +1,19 @@
+* {margin: 0; padding: 0; box-sizing: border-box; font-family: 'Lato', arial, sans-serif;}
+body {font-size: 1.1em;}
+header {height: 4em; display: flex; justify-content: space-between; padding: 0 1.1em; align-items: center; background-color: #223344; color: #ddd;}
+header > nav > a {margin-left: 1em; color: #ddd;}
+form {margin: 4em auto 2em 20%; width: 50%; display: flex; flex-direction: column;}
+form div.formtit {font-style: italic; margin-bottom: 1.1em;}
+form > div {display: flex; justify-content: center; margin: 5px 0;}
+form > div > div:first-child {width: 20%; text-align: right; margin-right: 1em;}
+form button {margin-top: 2em;}
+div#msgError {text-align: center;}
+
+section.showTravels {display: flex; justify-content: space-around; margin: 1.3em 0; flex-wrap: wrap;}
+section.showTravels > a.card {width: 22%;}
+section.showTravels > a.card > .cardinfo {background-color: #ddeeff; color: #222; font-size: 0.9em; font-weight: bold; display: flex; justify-content: space-between;}
+section.showTravels > a.card > .cardinfo > .precio {font-size: 1.3em; color: white; background-color: #4477dd; padding: 0 1em; height: 100%; display: flex; align-items: center;}
+section.showTravels > a.card > .cardinfo > div > .descuento {text-decoration:line-through; color: #224466;}
+
+div.buttonsYN {display: flex:}
+div.buttonsYN > a {margin: 0 1em;}

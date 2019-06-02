@@ -1,0 +1,12 @@
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: "Lato", arial, sans-serif; }
+body { font-size: 1.2em; background-color: #f9f9f9; }
+
+#showDetail { margin-top: 2em; }
+#showDetail > div.title { width: 50rem; font-size: 2.2em; background-color: beige; padding: 0.2em 0; margin: 0 auto; text-align: center; }
+#showDetail > div.hr { border: 2px solid #4595fd; width: 50rem; margin: 0 auto; padding: 0; }
+#showDetail > div.travel {display: flex; width: 50rem; margin: 0 auto; padding: 1em 2em 1.5em 0; background-color: #ffffff; color: #778;}
+#showDetail > div.travel > img:first-child { height: 14em; -webkit-box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.5); box-shadow: 0px   8px 16px 0px rgba(0, 0, 0, 0.5); }
+#showDetail > div.travel > div:nth-child(2) {margin-left: 1em;}
+#showDetail > div.travel > div:nth-child(2) span.precio {color: 556; font-weight: bold;}
+#showDetail > div.travel > div:nth-child(2) span.descuento {text-decoration:line-through; color: #889;}
+#showDetail > div.travel > div:nth-child(2) span.space {margin-left: 2em;}

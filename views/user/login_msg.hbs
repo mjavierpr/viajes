@@ -1,0 +1,11 @@
+{{> user/login_form}}
+<div class="text-danger" id="msgError">
+{{#if error}}
+        * {{error}}. Inténtalo otra vez
+</div>
+{{else if info}}
+    <div class="text-info">
+        <i class="fa fa-thumbs-o-up"></i>&nbsp; {{info}}
+    </div>
+{{/if}}
+<script src="/js/login.js"></script>

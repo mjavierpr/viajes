@@ -1,0 +1,37 @@
+<form action="/usuarios/crear-viaje" method="post">
+    <div class="formtit">Nuevo viaje</div>
+    <div>
+        <div>Destino: </div>
+        <input type="text" name="destino">
+    </div>
+    <div>
+        <div>Precio: </div>
+        <input type="number" name="precio">
+    </div>
+    <div>
+        <div>Descuento: </div>
+        <input type="number" name="descuento">
+    </div>
+    <div>
+        <div>Ruta imagen: </div>
+        <input type="text" name="ruta_imagen">
+    </div>
+    <div>
+        <div>Fecha inicio: </div>
+        <input type="date" name="fecha_inicio">
+    </div>
+    <div>
+        <div>Fecha fin: </div>
+        <input type="date" name="fecha_fin">
+    </div>
+    <div>
+        <div>Descripción: </div>
+        <input type="text" name="descripcion">
+    </div>
+    <div>
+        <button type="button" class="btn btn-success" id="btnSubmit">Crear&nbsp; <i class="fa fa-send-o"></i></button>
+    </div>
+    <div class="text-danger" id="msgError">
+    </div>
+</form>
+<script src="/js/add.js"></script>
