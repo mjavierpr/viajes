@@ -5,7 +5,7 @@ const CONN = MYSQL.createConnection({
     host: 'localhost',
     user: 'javi',
     password: '1234',
-    database: 'viajes',
+    database: 'viajeros',
 });
 
 module.exports = CONN;

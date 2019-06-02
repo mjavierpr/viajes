@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var usersController = require('../controllers/users');
+const express = require('express');
+const router = express.Router();
+const usersController = require('../controllers/users');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 
 // Envía a formulario de register.hbs para registrar nuevo usuario
 router.get('/registrar', (req, res) => {
-  res.render('user/register', {error: req.flash('error')});
+  res.render('user/register', {title: "Registro", error: req.flash('error')});
 });
 
 // Recoge los datos del formulario de register.hbs
@@ -19,7 +19,7 @@ router.post('/registrar', async (req, res) => {
   let msgRegister = await usersController.register(usuario, email, password);
   if (msgRegister == "") {
     // res.redirect('/usuarios/login')
-    res.render('user/login_msg', {info: "Te has registrado correctamente"});
+    res.render('user/login_msg', {title: "Identificación", info: "Te has registrado correctamente"});
   }else {
     req.flash('error', msgRegister);
     res.redirect('/usuarios/registrar');
@@ -32,7 +32,7 @@ router.get('/login', (req, res) => {
   if (req.session.name) {
     res.redirect('/');
   }else {
-    res.render('user/login_msg', {error: req.flash('errors')});
+    res.render('user/login_msg', {title: "Registro", error: req.flash('errors')});
   }
 })
 
@@ -60,7 +60,7 @@ router.post('/login', async (req, res) => {
 // Muestra la información del usuario en data.hbs
 router.get('/usuario', async (req, res) => {
   let data = await usersController.getData(req.session.email);
-  res.render('user/data', {data: data[0]});
+  res.render('user/data', {title: "Datos usuario", data: data[0]});
 });
 
 // Cierra sesión Muestra la información del usuario en userdata.hbs
@@ -71,7 +71,7 @@ router.get('/logout', async (req, res) => {
 
 // Envía al formulario de add.hbs para insertar nuevo viaje
 router.get('/crear-viaje', (req, res) => {
-  res.render('user/add');   // ruta fichero hbs
+  res.render('user/add', {title: "Crear viaje"});
 })
 
 // Recoge los datos del formulario de add.hbs
@@ -79,7 +79,7 @@ router.post('/crear-viaje', async (req, res) => {
   // Manda esos datos (req.body) a addTravel() que inserta los datos (crea un nuevo registro o viaje) en la bbdd y luego muestra un mensaje de éxito a través de added.hbs
   console.log(req.body);
   let isCreated = await usersController.addTravel(req.body);
-  res.render('user/added', {isCreated});
+  res.render('user/added', {title: "Creación viaje", isCreated});
 })
 
 module.exports = router;

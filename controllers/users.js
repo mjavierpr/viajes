@@ -1,45 +1,50 @@
-const CONN = require('../helpers/dbConnection');
+// Este fichero tiene las consultas a la bbdd
+const models = require('../models');  // conexión a la bbdd
+const sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
 const SALT_ROUNDS = 10;
+const CONN = require('../helpers/dbConnection');
 
 // Registra un nuevo usuario en la bbdd
 function register(usuario, email, password) {
     return new Promise( async(resolve, reject) => {
-        let msg = validateMsg(usuario, email, password);
+        let msg = await validateMsg(usuario, email, password);
         if (msg == "") {
             // La liberería bcrypt nos encripta la contraseña. Le indicamos las rondas de encriptación
             let hash = await bcrypt.hash(password, SALT_ROUNDS);
             let user = {
                 usuario,
                 password: hash,
-                email
+                email,
+                rol: 'usuario'
             }
-            CONN.query('INSERT INTO usuarios SET ?', [user], (err, row) => {
-                if (err) {
-                    msg = "Error al insertar usuario en la base de datos";
-                }
-                resolve(msg);
-            });
+                // await models.usuarios.Create(user);
+                //sequelize.query(`INSERT INTO usuarios VALUES (${usuario}, ${hash}, ${email}, rol: "usuario"`);
+                CONN.query('INSERT INTO usuarios SET ?', [user], (err, row) => {
+                    if (err) {
+                        msg = "Error al insertar usuario en la base de datos";
+                    }
+                    resolve(msg);
+                });
         }else {
             resolve(msg);
         }
     });
 }
 
-// Comprueba si el usuario tiene registro en la bbdd. Si lo está devuelve el usuario y si no null
+// Comprueba si el usuario tiene registro en la bbdd. Si lo tiene devuelve el usuario y si no null
 function checkRegister(email, password) {
     return new Promise((resolve, reject) => {
-        CONN.query('SELECT * FROM usuarios WHERE email = ?', [email], (err, row) => {
-            if (row.length === 0) {
-                resolve(null);
-            }else {
-                // Compara contraseña introducida con la contraseña de la bbdd
-                bcrypt.compare(password, row[0].password, (err, match) => {
-                    resolve( match ? row[0] : null);
-                })
-            }
-        })
-    })
+        let row = models.usuarios.findAll({where: {email: email}});
+        if (row.length === 0) {
+            resolve(null);
+        }else {
+            // Compara contraseña introducida con la contraseña de la bbdd
+            bcrypt.compare(password, row[0].password, (err, match) => {
+                resolve( match ? row[0] : null);
+            });
+        }
+    });
 }
 
 async function validateMsg(usuario, email, password) {
@@ -79,31 +84,25 @@ function existsField(fieldName, fieldValue) {
 }
 
 // Devuelve los datos del usuario
-function getData(email) {
-    return new Promise((resolve, reject) => {
-        CONN.query('SELECT * FROM usuarios WHERE email = ?', [email], (err, row) => {
-            resolve(row);
-        })
-    })
+async function getData(email) {
+    let row = await models.usuarios.findAll({where: {email: email}});
+    return row;
 }
 
 // Devuelve el rol del usuario
-function isAdmin(email) {
-    return new Promise((resolve, reject) => {
-        CONN.query('SELECT * FROM usuarios WHERE email = ?', [email], (err, row) => {
-            resolve(row[0].rol == "administrador" ? true: null);
-        })
-    })
+async function isAdmin(email) {
+    let row = await models.usuarios.findAll({where: {email: email}});
+    return (row[0].rol == "administrador" ? true: null);
 }
 
 // Añade un viaje y lo devuelve
-function addTravel(travel) {
-    return new Promise((resolve, reject) => {
-        CONN.query("INSERT INTO viaje SET ?", [travel], (error, rowNew) => {
-            // CONN.query("SELECT * FROM viaje WHERE id = ?", [rowNew.insertId], (error, rowIns) => {
-            resolve (error ? null : true);
-        });
-    })
+async function addTravel(travel) {
+    try {
+        await models.viajes.Create(travel);
+        return null;
+    }catch(err) {
+        return true;
+    }
 }
 
 module.exports = {
