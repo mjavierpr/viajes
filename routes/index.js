@@ -8,8 +8,8 @@ router.get('/', async (req, res) => {
   // getTravels() nos devuelve un SELECT * FROM viaje
   let travels = await travelsController.getTravels();
   let userName = req.session.name;
-  let userAdmin = req.session.admin;
-  res.render('home', {title: "Viajes", travels, userName, userAdmin});
+  let isAdmin = (req.session.rol == "administrador" ? "admin" : null);
+  res.render('home', {title: "Viajes", travels, userName, isAdmin});
 });
 
 // Página de detalle

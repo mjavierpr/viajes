@@ -44,17 +44,13 @@ router.post('/login', async (req, res) => {
   if (user) {
       req.session.email = user.email;
       req.session.name = user.usuario;
-      req.session.admin = await usersController.isAdmin(email);
+      req.session.rol = user.rol;
       req.session.logginDate = new Date();
       res.redirect('/');
   }else {
       req.flash('errors', 'Usuario no encontrado');
       res.redirect('/usuarios/login');
   }
-  // if (!email || !password) {
-  //   req.flash('errors', 'Inténtalo de nuevo');
-  //   res.redirect('/usuarios/login');
-  // }else {
 });
 
 // Muestra la información del usuario en data.hbs
@@ -71,13 +67,16 @@ router.get('/logout', async (req, res) => {
 
 // Envía al formulario de add.hbs para insertar nuevo viaje
 router.get('/crear-viaje', (req, res) => {
-  res.render('user/add', {title: "Crear viaje"});
-})
+  if (req.session.rol == "administrador") {
+    res.render('user/add', {title: "Crear viaje"});
+  }else {
+    res.redirect('/');
+  }
+});
 
 // Recoge los datos del formulario de add.hbs
 router.post('/crear-viaje', async (req, res) => {
   // Manda esos datos (req.body) a addTravel() que inserta los datos (crea un nuevo registro o viaje) en la bbdd y luego muestra un mensaje de éxito a través de added.hbs
-  console.log(req.body);
   let isCreated = await usersController.addTravel(req.body);
   res.render('user/added', {title: "Creación viaje", isCreated});
 })

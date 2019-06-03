@@ -13,7 +13,18 @@ async function getTravelId(id) {
     return row;
 }
 
+// Añade un viaje y lo devuelve
+async function addTravel(travel) {
+    try {
+        let viaje = await models.viajes.create(travel);
+        return viaje;
+    }catch(err) {
+        return null;
+    }
+}
+
 module.exports = {
     getTravels,
-    getTravelId
+    getTravelId,
+    addTravel
 }

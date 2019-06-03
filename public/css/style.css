@@ -2,6 +2,7 @@
 body {font-size: 1.1em;}
 header {height: 4em; display: flex; justify-content: space-between; padding: 0 1.1em; align-items: center; background-color: #223344; color: #ddd;}
 header > nav > a {margin-left: 1em; color: #ddd;}
+header > nav > a:hover {color: beige; text-decoration: none; border-bottom: 1px solid #777;}
 form {margin: 4em auto 2em 20%; width: 50%; display: flex; flex-direction: column;}
 form div.formtit {font-style: italic; margin-bottom: 1.1em;}
 form > div {display: flex; justify-content: center; margin: 5px 0;}
