@@ -7,7 +7,7 @@
             <a href="http://localhost:3000/usuarios/crear-viaje"><i class="fa fa-plus-square-o"></i>&nbsp; Crear viaje</a>
         {{/if}}
         {{#if userName}}
-            <a href="http://localhost:3000/usuarios/usuario"><i class="fa fa-user"></i>&nbsp; {{userName}}</a>
+            <a href="http://localhost:3000/usuarios/datos-usuario"><i class="fa fa-user"></i>&nbsp; {{userName}}</a>
             <a href="http://localhost:3000/usuarios/logout"><i class="fa fa-sign-out"></i>&nbsp; Cerrar sesión</a>
         {{else}}
             <a href="http://localhost:3000/usuarios/registrar"><i class="fa fa-user-plus"></i>&nbsp; Registro</a>
@@ -15,6 +15,7 @@
         {{/if}}
     </nav>
 </header>
+<div class="contenedor">
 <section class="showTravels">
 {{#each travels}}
     <a href="http://localhost:3000/detalle/{{id}}" class="card">
@@ -29,4 +30,5 @@
     </a>
 {{/each}}
 </section>
+</div>
 <script src="/js/price.js"></script>

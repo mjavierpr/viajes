@@ -1,3 +1,4 @@
+<div class="contenedor">
 <form action="/usuarios/registrar" method="post">
     <div class="formtit">Registro</div>
     <div>
@@ -13,12 +14,13 @@
         <input type="password" name="password">
     </div>
     <div>
-        <button type="button" class="btn btn-success" id="btnSubmit">Registrar&nbsp; <i class="fa fa-send-o"></i></button>
+        <button type="button" class="btn btn-success" id="btnSubmit">Registrar&nbsp; <i class="fa fa-user-circle-o"></i></button>
     </div>
 </form>
 <div class="text-danger" id="msgError">
     {{#if error}}
         * {{error}}
     {{/if}}
+</div>
 </div>
 <script src="/js/register.js"></script>

@@ -1,7 +1,7 @@
 // Este fichero tiene las consultas a la bbdd
 const models = require('../models');  // conexión a la bbdd
 
-// Controlador que devuelve una promesa
+// Devuelte todos los viajes (aunque si hay muchos debemos limitar la consulta SELECT * FROM viajes LIMIT 8 y hacer paginación)
 async function getTravels() {
     let rows = await models.viajes.findAll();
     return rows;

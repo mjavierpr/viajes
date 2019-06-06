@@ -1,6 +1,5 @@
 // Este fichero tiene las consultas a la bbdd
 const models = require('../models');  // conexión a la bbdd
-const sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
 const SALT_ROUNDS = 10;
 
@@ -50,9 +49,9 @@ async function validateMsg(usuario, email, password) {
         msg = "El nombre de usuario tiene que tener al menos 4 caracteres";
     }else if (!validEmail(email)) {
         msg = "El email no tiene un formato correcto";
-    }else if (await existsField('usuario', usuario)) {
+    }else if (await existsUser(usuario)) {
         msg = "El nombre de usuario ya existe";
-    }else if (await existsField('email', email)) {
+    }else if (await existsEmail(email)) {
         msg = "El email ya existe";
     }else if (password < 5) {
         msg = "La contraseña debe tener un tamaño mínimo de 5 caracteres";
@@ -72,8 +71,19 @@ function validPassword(password) {
     return re.test(password);
 }
 
-async function existsField(fieldName, fieldValue) {
-    let row = sequelize.query(`SELECT * FROM usuarios WHERE ${fieldName} = ${fieldValue}`);
+// const sequelize = require('sequelize');
+// async function existsField(fieldName, fieldValue) {
+//     let row = sequelize.query(`SELECT * FROM usuarios WHERE ${fieldName} = ${fieldValue}`);
+//     return (row.length > 0 ? true : false);
+// }
+
+async function existsUser(user) {
+    let row = await models.usuarios.findAll({where: {usuario: user}});
+    return (row.length > 0 ? true : false);
+}
+
+async function existsEmail(email) {
+    let row = await models.usuarios.findAll({where: {email: email}});
     return (row.length > 0 ? true : false);
 }
 

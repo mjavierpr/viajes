@@ -1,3 +1,4 @@
+<div class="contenedor">
 <form action="/usuarios/crear-viaje" method="post">
     <div class="formtit">Nuevo viaje</div>
     <div>
@@ -29,9 +30,14 @@
         <input type="text" name="descripcion">
     </div>
     <div>
+        <div>Id del autor: </div>
+        <input type="number" name="usuarioId">
+    </div>
+    <div>
         <button type="button" class="btn btn-success" id="btnSubmit">Crear&nbsp; <i class="fa fa-send-o"></i></button>
     </div>
     <div class="text-danger" id="msgError">
     </div>
 </form>
+</div>
 <script src="/js/add.js"></script>

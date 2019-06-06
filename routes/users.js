@@ -19,7 +19,7 @@ router.post('/registrar', async (req, res) => {
   let msgRegister = await usersController.register(usuario, email, password);
   if (msgRegister == "") {
     // res.redirect('/usuarios/login')
-    res.render('user/login_msg', {title: "Identificación", info: "Te has registrado correctamente"});
+    res.render('user/login_msg', {title: "Identificación", success: "Te has registrado correctamente"});
   }else {
     req.flash('error', msgRegister);
     res.redirect('/usuarios/registrar');
@@ -54,7 +54,7 @@ router.post('/login', async (req, res) => {
 });
 
 // Muestra la información del usuario en data.hbs
-router.get('/usuario', async (req, res) => {
+router.get('/datos-usuario', async (req, res) => {
   let data = await usersController.getData(req.session.email);
   res.render('user/data', {title: "Datos usuario", data: data[0]});
 });

@@ -7,5 +7,9 @@ module.exports = (sequelize, DataTypes) => {
     rol: DataTypes.ENUM('usuario', 'administrador')
   });
 
+  usuarios.associate = (models) => {
+    models.usuarios.hasMany(models.viajes);
+  };
+
   return usuarios;
 };
