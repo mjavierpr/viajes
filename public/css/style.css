@@ -3,7 +3,7 @@ body {font-size: 1.1em;}
 header {height: 4em; display: flex; justify-content: space-between; padding: 0 1.1em; align-items: center; background-color: #223344; color: #ddd;}
 header > nav > a {margin-left: 1em; color: #ddd;}
 header > nav > a:hover {color: beige; text-decoration: none; border-bottom: 1px solid #777;}
-form {margin: 3.8em auto 2em 20%; padding-bottom: 1em; width: 50%; display: flex; flex-direction: column; background-color: beige;}
+form {margin: 3.8em auto 2em auto; padding-bottom: 1em; width: 50%; display: flex; flex-direction: column; background-color: beige;}
 div.formtit {font-style: italic; margin-bottom: 1.1em; padding: 0.1em 0.7em; background-color: #e5f0f1;}
 form > div {display: flex; justify-content: center; padding: 5px 0; background-color: beige;}
 form > div > div:first-child {width: 20%; text-align: right; margin-right: 1em;}

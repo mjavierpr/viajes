@@ -3,46 +3,30 @@ const models = require('../models');
 const bcrypt = require('bcrypt');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const travelsController = require('./travels');
 
 // devuelve los primeros 20 registros de la base de datos
-async function getApiTravels(maxPrice, destiny) {
-    let rows;
+async function getApiTravels(maxPrice, destiny, autor) {
+    let rows, query;
     if (maxPrice && destiny) {
-        rows = await models.viajes.findAll({where: {precio: {[Op.lte]: maxPrice}}, destino: destiny}, {limit: 20});
+        query = {where: {precio: {[Op.lte]: maxPrice}, destino: destiny}, limit: 20};
     }else if (maxPrice) {
-        rows = await models.viajes.findAll({where: {precio: {[Op.lte]: maxPrice}}}, {limit: 20});
+        query = {where: {precio: {[Op.lte]: maxPrice}}, limit: 20};
     }else if (destiny) {
-        rows = await models.viajes.findAll({where: {destino: {[Op.like]: destiny}}}, {limit: 20});     
-    }else {
-        rows = await models.viajes.findAll({limit: 20});
+        query = {where: {destino: {[Op.like]: destiny}}, limit: 20};
+    }else if (autor) {
+		if (autor == "*") {
+			query = {include: [{model: models.usuarios, attributes: {exclude: ['password']}}], limit: 20};
+		}else {
+			query = {include: [{model: models.usuarios, attributes: {exclude: ['password']}, where: {id: autor}}], limit: 20};
+		}
+	}else {
+        query = {limit: 20};
     }
+    rows = await travelsController.getTravels(query);
     return rows;
 }
-
-// devuelve los primeros 20 registros de la base de datos
-async function getApiTravelsAuthor(autor) {
-    let rows;
-    if (autor == "*") {
-        rows = await models.viajes.findAll({include: [{model: models.usuarios}]}, {limit: 20});        
-    }else {
-        rows = await models.viajes.findAll({include: [{model: models.usuarios, where: {id: autor}}]}, {limit: 20});     
-    }
-    return rows;
-}
-
-// Añade un viaje y lo devuelve
-async function addTravel(travel) {
-    try {
-        let newTravel = await models.viajes.create(travel);
-        return newTravel ? true : null;
-    }catch(err) {
-        return null;
-    }
-}
-
 
 module.exports = {
-    getApiTravels,
-    getApiTravelsAuthor,
-    addTravel
+    getApiTravels
 }

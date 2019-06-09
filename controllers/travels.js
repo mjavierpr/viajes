@@ -2,8 +2,8 @@
 const models = require('../models');  // conexión a la bbdd
 
 // Devuelte todos los viajes (aunque si hay muchos debemos limitar la consulta SELECT * FROM viajes LIMIT 8 y hacer paginación)
-async function getTravels() {
-    let rows = await models.viajes.findAll();
+async function getTravels(query) {
+    let rows = await models.viajes.findAll(query);
     return rows;
 }
 
