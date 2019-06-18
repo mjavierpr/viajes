@@ -4,12 +4,18 @@ module.exports = (sequelize, DataTypes) => {
     usuario: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    rol: DataTypes.ENUM('usuario', 'administrador')
+    rol: DataTypes.ENUM('usuario', 'administrador'),
+    activo: DataTypes.BOOLEAN
   });
 
   usuarios.associate = (models) => {
     models.usuarios.hasMany(models.viajes);
   };
+
+  usuarios.associate = (models) => {
+    models.usuarios.hasOne(models.claves);
+  };
+
 
   return usuarios;
 };

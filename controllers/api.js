@@ -9,11 +9,11 @@ const travelsController = require('./travels');
 async function getApiTravels(maxPrice, destiny, autor) {
     let rows, query;
     if (maxPrice && destiny) {
-        query = {where: {precio: {[Op.lte]: maxPrice}, destino: destiny}, limit: 20};
+        query = {where: {precio: {[Op.lte]: maxPrice}, destino: {[Op.substring]: destiny}}, limit: 20};
     }else if (maxPrice) {
         query = {where: {precio: {[Op.lte]: maxPrice}}, limit: 20};
     }else if (destiny) {
-        query = {where: {destino: {[Op.like]: destiny}}, limit: 20};
+        query = {where: {destino: {[Op.substring]: destiny}}, limit: 20};
     }else if (autor) {
 		if (autor == "*") {
 			query = {include: [{model: models.usuarios, attributes: {exclude: ['password']}}], limit: 20};

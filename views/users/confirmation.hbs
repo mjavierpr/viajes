@@ -1,0 +1,11 @@
+<div class="contenedor center">
+{{#if error}}
+    <div class="text-danger" id="msgError">
+        * {{error}}
+    </div>
+{{else if success}}
+    <div class="text-success">
+        {{success}}
+    </div>
+{{/if}}
+</div>

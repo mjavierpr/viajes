@@ -1,0 +1,26 @@
+<div class="contenedor">
+<form action="/usuarios/registrar" method="post">
+    <div class="formtit">Registro</div>
+    <div>
+        <div>Usuario: </div>
+        <input type="text" name="usuario" value={{usuario}}>
+    </div>
+    <div>
+        <div>Email: </div>
+        <input type="text" name="email" value={{email}}>
+    </div>
+    <div>
+        <div>Contraseña: </div>
+        <input type="password" name="password">
+    </div>
+    <div>
+        <button type="button" class="btn btn-success" id="btnSubmit">Registrar&nbsp; <i class="fa fa-user-circle-o"></i></button>
+    </div>
+</form>
+<div class="text-danger" id="msgError">
+    {{#if error}}
+        * {{error}}
+    {{/if}}
+</div>
+</div>
+<script src="/js/register.js"></script>

@@ -16,8 +16,8 @@ async function getTravelId(id) {
 // Añade un viaje y lo devuelve
 async function addTravel(travel) {
     try {
-        let viaje = await models.viajes.create(travel);
-        return viaje;
+        let newTravel = await models.viajes.create(travel);
+        return newTravel ? true : null;
     }catch(err) {
         return null;
     }

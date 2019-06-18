@@ -1,7 +1,10 @@
 // Este fichero tiene las consultas a la bbdd
 const models = require('../models');  // conexión a la bbdd
 const bcrypt = require('bcrypt');
+
 const SALT_ROUNDS = 10;
+const emailUtils = require('../utils/email');
+const Server = 'http://localhost:3000';
 
 // Registra un nuevo usuario en la bbdd
 function register(usuario, email, password) {
@@ -14,7 +17,8 @@ function register(usuario, email, password) {
                 usuario,
                 password: hash,
                 email,
-                rol: 'usuario'
+                rol: 'usuario',
+                activo: 0
             }
             try {
                 let newUser = await models.usuarios.create(user);
@@ -33,12 +37,17 @@ function checkRegister(email, password) {
     return new Promise( async(resolve, reject) => {
         let row = await models.usuarios.findAll({where: {email: email}});
         if (row.length === 0) {
-            resolve(null);
+            resolve("Usuario no encontrado");
         }else {
-            // Compara contraseña introducida con la contraseña de la bbdd
-            bcrypt.compare(password, row[0].password, (err, match) => {
-                resolve( match ? row[0].dataValues : null);
-            })
+            // usuario confirmado
+            if (row[0].activo) {
+                // Compara contraseña introducida con la contraseña de la bbdd
+                bcrypt.compare(password, row[0].password, (err, match) => {
+                    resolve(match ? row[0].dataValues : "La contraseña es incorrecta");
+                })
+            }else{
+                resolve("Usuario pendiente de confirmar");
+            }
         }
     })
 }
@@ -93,19 +102,44 @@ async function getData(email) {
     return row;
 }
 
-// Añade un viaje y lo devuelve
-async function addTravel(travel) {
+// envía email con enlace de confirmación a usurio recién regstrado y agrega clave a tabla claves
+async function emailConfirmation(usuario, email) {
+    let keyLink = emailUtils.generateKeylink(usuario);
+    emailUtils.sendMail(email, 'emailConfirmation', 'Viajes - Confirmación', "Pincha este enlace", Server + '/usuarios/confirmar-email/' + keyLink);
     try {
-        let newTravel = await models.viajes.create(travel);
-        return newTravel ? true : null;
+        let row = await models.usuarios.findAll({where: {email: email}});
+        let userId = row[0].id;
+        let newKey = await models.claves.create({id: userId, clave: keyLink, usuarioId: userId});
+        return newKey ? "" : "Error al acceder a la base de datos";
     }catch(err) {
-        return null;
+        return "Error al acceder a la base de datos";
     }
+}
+
+async function existsKey(key) {
+    let row = await models.claves.findAll({where: {clave: key}});
+    return (row.length > 0 ? row[0].id : null);
+}
+
+// Cambia el valor booleano del campo activo de la tabla claves
+async function userActive(userId) {
+    let row = await models.usuarios.update(
+        { activo: '1' },
+        { where: { id: userId }
+    });
+    return (row.length > 0 ? true : false);
+}
+
+async function keyDelete(userId) {
+    await models.claves.destroy({where: {id: userId}});
 }
 
 module.exports = {
     checkRegister,
     register,
     getData,
-    addTravel
+    emailConfirmation,
+    existsKey,
+    userActive,
+    keyDelete
 }

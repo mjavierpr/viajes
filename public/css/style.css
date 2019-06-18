@@ -24,6 +24,8 @@ section.showTravels > a.card > .cardinfo > div > .descuento {text-decoration:lin
 
 div.buttonsYN {display: flex:}
 div.buttonsYN > a {margin: 0 1em;}
+div.center {text-align: center; margin-top: 2em;}
+div.fotEmail {margin-top: 2em;}
 
 footer {background: #777; color: #bbb; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0.5em 0;}
 footer > nav > a {color: #bbb; text-decoration: none;}
