@@ -13,8 +13,7 @@ router.use(function(req, res, next) {
 router.get('/', async (req, res) => {
     let maxPrice = req.query.maxPrecio;
     let destiny = req.query.destino;
-    let autor = req.query.autor;
-    let dataApi = await apiController.getApiTravels(maxPrice, destiny, autor);
+    let dataApi = await apiController.getApiTravels(maxPrice, destiny);
     res.send(dataApi);
 });
 

@@ -3,10 +3,11 @@ body {font-size: 1.1em;}
 header {height: 4em; display: flex; justify-content: space-between; padding: 0 1.1em; align-items: center; background-color: #223344; color: #ddd;}
 header > nav > a {margin-left: 1em; color: #ddd;}
 header > nav > a:hover {color: beige; text-decoration: none; border-bottom: 1px solid #777;}
-form {margin: 3.8em auto 2em auto; padding-bottom: 1em; width: 50%; display: flex; flex-direction: column; background-color: beige;}
+form {margin: 3em auto 2em auto; padding-bottom: 1em; width: 50%; display: flex; flex-direction: column; background-color: beige;}
 div.formtit {font-style: italic; margin-bottom: 1.1em; padding: 0.1em 0.7em; background-color: #e5f0f1;}
 form > div {display: flex; justify-content: center; padding: 5px 0; background-color: beige;}
 form > div > div:first-child {width: 20%; text-align: right; margin-right: 1em;}
+form > div > div.imgsTravels {margin-top: 1em;}
 form button {margin-top: 2em;}
 div#msgError {text-align: center;}
 
@@ -16,8 +17,9 @@ div.infoapi > div.apicont > div:first-child {text-align: right;}
 div.infoapi > div.apicont > div > div {padding: 0.7em; border-bottom: 1px solid #bcf;}
 
 div.contenedor {min-height: 80vh;}
-section.showTravels {display: flex; justify-content: space-around; margin: 1.3em 0; flex-wrap: wrap; width: 100%;}
-section.showTravels > a.card {width: 22%; text-decoration: none;}
+section.showTravels {display: flex; justify-content: space-around; flex-wrap: wrap; width: 100%;}
+section.showTravels > a.card {width: 22%; text-decoration: none; margin-top: 1.3em;}
+section.showTravels > a.card > img {width: 100%;}
 section.showTravels > a.card > .cardinfo {background-color: #ddeeff; color: #222; font-size: 0.9em; font-weight: bold; display: flex; justify-content: space-between;}
 section.showTravels > a.card > .cardinfo > .precio {font-size: 1.3em; color: white; background-color: #4477dd; padding: 0 1em; height: 100%; display: flex; align-items: center;}
 section.showTravels > a.card > .cardinfo > div > .descuento {text-decoration:line-through; color: #224466;}
@@ -26,6 +28,11 @@ div.buttonsYN {display: flex:}
 div.buttonsYN > a {margin: 0 1em;}
 div.center {text-align: center; margin-top: 2em;}
 div.fotEmail {margin-top: 2em;}
+div.infoita {font-size: 0.8em;}
 
-footer {background: #777; color: #bbb; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0.5em 0;}
+form > div.showImages {display: flex; justify-content: space-around; flex-wrap: wrap;}
+form > div.showImages > label.cardImage {width: 22%; margin: 1.3em 0 0 1em;}
+form > div.showImages > label.cardImage > img {width: 100%;}
+
+footer {background: #777; color: #bbb; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0.5em 0; margin-top: 1.3em;}
 footer > nav > a {color: #bbb; text-decoration: none;}

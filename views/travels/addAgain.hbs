@@ -1,0 +1,17 @@
+{{> header}}
+<div class="contenedor center">
+{{#if error}}
+    <div class="text-danger" id="msgError">
+        * {{error}}
+    </div>
+{{else}}
+    <div class="text-success">
+        Imagen principal asignada correctamente
+    </div>
+    <div>¿Deseas crear otro viaje?</div>
+    <div class="buttonsYN">
+        <a class="btn btn-success" href="/crear-viaje">&nbsp;Sí&nbsp;</a>
+        <a class="btn btn-success" href="/">&nbsp;No&nbsp;</a>
+    </div>
+{{/if}}
+</div>

@@ -1,19 +1,26 @@
+{{> header}}
 <div class="contenedor">
-<form action="/usuarios/registrar" method="post">
-    <div class="formtit">Tus datos</div>
-    {{#with data}}
-    <div>
-        <div>Usuario: </div>
-        <input type="text" name="usuario" disabled value={{usuario}}>
-    </div>
-    <div>
-        <div>Email: </div>
-        <input type="text" name="email" disabled value={{email}}>
-    </div>
-    <div>
-        <div>Rol: </div>
-        <input type="text" name="rol" disabled value={{rol}}>
-    </div> 
-    {{/with}}   
-</form>
+	{{#if error}}
+		<div class="text-danger" id="msgError">
+			* {{error}}
+		</div>
+	{{else}}
+		<form action="/usuarios/registrar" method="post">
+			<div class="formtit">Tus datos</div>
+			{{#with data}}
+				<div>
+					<div>Usuario: </div>
+					<input type="text" name="usuario" disabled value={{usuario}}>
+				</div>
+				<div>
+					<div>Email: </div>
+					<input type="text" name="email" disabled value={{email}}>
+				</div>
+				<div>
+					<div>Rol: </div>
+					<input type="text" name="rol" disabled value={{rol}}>
+				</div> 
+			{{/with}}
+		</form>
+	{{/if}}
 </div>

@@ -4,7 +4,7 @@
     </div>
     <nav>
         {{#if isAdmin}}
-            <a href="http://localhost:3000/usuarios/crear-viaje"><i class="fa fa-plus-square-o"></i>&nbsp; Crear viaje</a>
+            <a href="http://localhost:3000/crear-viaje"><i class="fa fa-plus-square-o"></i>&nbsp; Crear viaje</a>
         {{/if}}
         {{#if userName}}
             <a href="http://localhost:3000/usuarios/datos-usuario"><i class="fa fa-user"></i>&nbsp; {{userName}}</a>
@@ -17,18 +17,24 @@
 </header>
 <div class="contenedor">
 <section class="showTravels">
-{{#each travels}}
-    <a href="http://localhost:3000/detalle/{{id}}" class="card">
-        <img src={{ruta_imagen}} alt="{{destino}}">
-        <div class="cardinfo">
-            <div>
-                <div>{{destino}}</div>
-                <div class="descuento">{{descuento}}</div>
-            </div>
-            <div class="precio">{{precio}}</div>
+    {{#if error}}
+        <div class="text-danger" id="msgError">
+            * {{error}}
         </div>
-    </a>
-{{/each}}
+    {{else}}
+        {{#each travels}}
+            <a href="http://localhost:3000/detalle/{{id}}" class="card">
+                <img src="/uploads/{{imagenPrincipal.image.image}}" alt="{{destino}}">
+                <div class="cardinfo">
+                    <div>
+                        <div>{{destino}}</div>
+                        <div class="descuento">{{descuento}}</div>
+                    </div>
+                    <div class="precio">{{precio}}</div>
+                </div>
+            </a>
+        {{/each}}
+    {{/if}}
 </section>
 </div>
 <script src="/js/price.js"></script>

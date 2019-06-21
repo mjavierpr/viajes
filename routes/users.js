@@ -3,7 +3,7 @@ const router = express.Router();
 const usersController = require('../controllers/users');
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
   res.send('respond with a resource');
 });
 
@@ -22,17 +22,11 @@ router.post('/registrar', async (req, res) => {
     msg = await usersController.emailConfirmation(usuario, email);
     if (msg == "") {
       res.render('users/confirmation', {title: "Confirmación", success: "Te hemos enviado un email de confirmación"});
-      // res.redirect('/usuarios/login')
-      // res.render('users/login_msg', {title: "Identificación", success: "Te has registrado correctamente"});
     }else {
-      req.flash('error', msg);
-      // res.redirect('/usuarios/registrar');
-      res.render('users/register', {title: "Registro", usuario: usuario, email: email});
+      res.render('users/register', {title: "Registro", usuario, email, error: msg});
     }
   }else {
-    req.flash('error', msg);
-    // res.redirect('/usuarios/registrar');
-    res.render('users/register', {title: "Registro", usuario: usuario, email: email});
+    res.render('users/register', {title: "Registro", usuario, email, error: msg});
   }
 });
 
@@ -42,7 +36,7 @@ router.get('/login', (req, res) => {
   if (req.session.name) {
     res.redirect('/');
   }else {
-    res.render('users/login_msg', {title: "Identificación", error: req.flash('errors')});
+    res.render('users/login', {title: "Identificación", error: req.flash('errors')});
   }
 });
 
@@ -55,21 +49,28 @@ router.post('/login', async (req, res) => {
       req.session.email = resReg.email;
       req.session.name = resReg.usuario;
       req.session.rol = resReg.rol;
+      req.session.userId = resReg.id;
       //req.session.logginDate = new Date();
       res.redirect('/');
   }else {
       req.flash('errors', resReg);
-      //
-      //
-      // res.redirect('/usuarios/login');
-      res.render('users/login_msg', {title: "Identificación", error: req.flash('errors'), email: email});
+      res.render('users/login', {title: "Identificación", error: req.flash('errors'), email});
   }
 });
 
 // Muestra la información del usuario en data.hbs
 router.get('/datos-usuario', async (req, res) => {
-  let data = await usersController.getData(req.session.email);
-  res.render('users/data', {title: "Datos usuario", data: data[0]});
+  // Se tapa la entrada a intrusos
+  if (req.session.rol == "administrador") {
+    let user = await usersController.getUser(req.session.email);
+    if (user) {
+      res.render('users/data', {title: "Datos usuario", data: user[0]});
+    }else {
+      res.render('users/data', {title: "Datos usuario", error: "Error al obtener datos del usuario"});
+    }
+  }else {
+    res.redirect('/');
+  }
 });
 
 // Cierra sesión Muestra la información del usuario en userdata.hbs
@@ -82,8 +83,9 @@ router.get('/logout', async (req, res) => {
 router.get('/confirmar-email/:link', async (req, res) => {
   let paramLink = req.params.link;
   // Si la clave de confirmación existe, devuelve el usuario y si no null
-  let userId = await usersController.existsKey(paramLink);
-  if (userId) {
+  let data = await usersController.existsKey(paramLink);
+  if (Array.isArray(data)) {
+    let userId = data[0].id;
     let isSuccess = await usersController.userActive(userId);
     if (isSuccess) {
       // Borra la clave de la tabla claves
@@ -93,7 +95,11 @@ router.get('/confirmar-email/:link', async (req, res) => {
       res.render('users/confirmation', {title: "Confirmación registro", error: "Error al confirmar registro"});
     }
   }else {
-    res.render('users/confirmation', {title: "Confirmación registro", error: "Usuario no existe"});
+    if (typeof data === "string") {
+      res.render('users/confirmation', {title: "Confirmación registro", error: data});
+    }else {
+      res.render('users/confirmation', {title: "Confirmación registro", error: "Usuario no existe"});
+    }
   }
 })
 

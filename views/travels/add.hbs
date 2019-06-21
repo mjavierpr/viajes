@@ -1,45 +1,46 @@
+{{> header}}
 <div class="contenedor">
-<form action="/usuarios/crear-viaje" method="post">
+<form action="/crear-viaje" method="post" enctype="multipart/form-data">
     <div class="formtit">Nuevo viaje</div>
     <div>
+        </label>
         <div>Destino: </div>
-        <input type="text" name="destino">
+        <input type="text" name="destino" class="fields" value={{destino}}>
     </div>
     <div>
         <div>Precio: </div>
-        <input type="number" name="precio">
+        <input type="number" name="precio" class="fields" value={{precio}}>
     </div>
     <div>
         <div>Descuento: </div>
-        <input type="number" name="descuento">
-    </div>
-    <div>
-        <div>Ruta imagen: </div>
-        <input type="text" name="ruta_imagen">
+        <input type="number" name="descuento" class="fields" value={{descuento}}>
     </div>
     <div>
         <div>Fecha inicio: </div>
-        <input type="date" name="fecha_inicio">
+        <input type="date" name="fecha_inicio" class="fields" value={{fecha_inicio}}>
     </div>
     <div>
         <div>Fecha fin: </div>
-        <input type="date" name="fecha_fin">
+        <input type="date" name="fecha_fin" class="fields" value={{fecha_fin}}>
     </div>
     <div>
         <div>Descripción: </div>
-        <input type="text" name="descripcion">
+        <input type="text" name="descripcion" class="fields" value={{descripcion}}>
     </div>
     <div>
-        <div>Id del autor: </div>
-        <input type="number" name="usuarioId">
+        <div class="imgsTravels"><i class="fa fa-file-image-o"></i>&nbsp; Imágenes: </div>
     </div>
-        <div>Imágenes: </div>
-        <input type='file' name='file' multiple />
+    <div>
+        <input type='file' name='imgFiles' id="arrFiles" multiple>
+    </div>
     <div>
         <button type="button" class="btn btn-success" id="btnSubmit">Crear&nbsp; <i class="fa fa-send-o"></i></button>
     </div>
-    <div class="text-danger" id="msgError">
-    </div>
 </form>
+<div class="text-danger" id="msgError">
+    {{#if error}}
+        * {{error}}
+    {{/if}}
+</div>
 </div>
 <script src="/js/add.js"></script>

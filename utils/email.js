@@ -25,7 +25,7 @@ function sendMail (email, template, subject, text, link) {
 }
 
 function generateKeylink(user) {
-    let keyLink = moment().format('YYYYMMDDhhmmss') + user + parseInt(Math.random()*100);
+    let keyLink = moment().format('YYYYMMDDhhmmss') + Date.now();
     return keyLink;
 }
  

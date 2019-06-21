@@ -1,18 +1,30 @@
-<div class="contenedor">
-<form>
-{{#if isCreated}}
+{{> header}}
+<div class="contenedor center">
+{{#if error}}
+    <div class="text-danger" id="msgError">
+        * {{error}}
+    </div>
+{{else}}
     <div class="text-success">
         Viaje creado correctamente
     </div>
-{{else}}
-    <div class="text-danger">
-        * Error al crear el viaje
+    <div class="infoita">Elige la imagen principal para mostrar</div>
+    <form action="/imagen-principal" method="post">
+        <div class="showImages">
+            {{#each images}}
+                <label class="cardImage">
+                    <input type="radio" name="mainImgId" value="{{id}}">
+                    <img src="/uploads/{{image}}" alt="Imagen viaje">
+                </label>
+            {{/each}}
+        </div>
+        <input type="text" name="travelId" value={{travelId}} hidden>
+        <div>
+            <button type="button" class="btn btn-success" id="btnSubmit">Elegir&nbsp; <i class="fa fa-send-o"></i></button>
+        </div>
+    </form>
+    <div class="text-danger" id="msgError">
     </div>
 {{/if}}
-<div>¿Deseas crear otro viaje?</div>
-<div class="buttonsYN">
-    <a class="btn btn-success" href="/usuarios/crear-viaje">&nbsp;Sí&nbsp;</a>
-    <a class="btn btn-success" href="/">&nbsp;No&nbsp;</a>
 </div>
-</form>
-</div>
+<script src="/js/mainImage.js"></script>

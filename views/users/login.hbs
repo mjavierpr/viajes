@@ -1,3 +1,5 @@
+{{> header}}
+<div class="contenedor">
 <form action="/usuarios/login" method="post">
     <div class="formtit">Identificación</div>
     <div>
@@ -12,3 +14,15 @@
         <button type="button" id="btnSubmit" class="btn btn-success">Acceder&nbsp; <i class="fa fa-sign-in"></i></button>
     </div>
 </form>
+<div class="text-danger" id="msgError">
+    {{#if error}}
+        * {{error}}
+    {{/if}}
+</div>
+{{#if success}}
+    <div class="text-success">
+        <i class="fa fa-thumbs-o-up"></i>&nbsp; {{info}}
+    </div>
+{{/if}}
+</div>
+<script src="/js/login.js"></script>

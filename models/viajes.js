@@ -4,15 +4,14 @@ module.exports = (sequelize, DataTypes) => {
     destino: DataTypes.STRING,
     precio: DataTypes.DECIMAL(6, 0),
     descuento: DataTypes.DECIMAL(6, 0),
-    ruta_imagen: DataTypes.STRING,
     fecha_inicio: DataTypes.DATE,
     fecha_fin: DataTypes.DATE,
-    descripcion: DataTypes.STRING,
+    descripcion: DataTypes.STRING
   });
-
   viajes.associate = (models) => {
     models.viajes.belongsTo(models.usuarios);
+    models.viajes.hasMany(models.images);
+    models.viajes.hasOne(models.imagenPrincipal);
   };
-
   return viajes;
 };
