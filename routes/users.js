@@ -69,7 +69,7 @@ router.get('/datos-usuario', async (req, res) => {
       res.render('users/data', {title: "Datos usuario", error: "Error al obtener datos del usuario"});
     }
   }else {
-    res.redirect('/');
+    res.status(400).send("You are not welcome");
   }
 });
 

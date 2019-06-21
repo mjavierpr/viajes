@@ -3,6 +3,7 @@ const router = express.Router();
 const moment = require('moment');
 const uploads = require('../config/multer.js');
 const travelsController = require('../controllers/travels');
+const Unauthorized = "You are not welcome";
 
 // Página de inicio
 router.get('/', async (req, res) => {
@@ -35,7 +36,7 @@ router.get('/crear-viaje', (req, res) => {
   if (req.session.rol == "administrador") {
     res.render('travels/add', {title: "Crear viaje"});
   }else {
-    res.redirect('/');
+    res.status(400).send(Unauthorized);
   }
 });
 
@@ -56,7 +57,7 @@ router.post('/crear-viaje', uploads.array('imgFiles', 10), async (req, res) => {
       res.render('travels/add', {title: "Creación viaje", error: "No has seleccionado ningún archivo de imagen", destino, precio, descuento,fecha_inicio, fecha_fin, descripcion});
     }
   }else {
-    res.redirect('/');
+    res.status(400).send(Unauthorized);
   }
 });
 
@@ -71,7 +72,7 @@ router.get('/viaje/:id/imagen-principal', async (req, res) => {
       res.render('travels/added', {title: "Creación viaje", error: "* Error al obtener imágenes"});
     }
   }else {
-    res.redirect('/');
+    res.status(400).send(Unauthorized);
   }
 });
 
@@ -86,7 +87,7 @@ router.post('/imagen-principal', async (req, res) => {
       res.render('travels/addAgain', {title: "Creación viaje", error: "Error al asignar imagen principal"});
     }
   }else {
-    res.redirect('/');
+    res.status(400).send(Unauthorized);
   }
 });
 
