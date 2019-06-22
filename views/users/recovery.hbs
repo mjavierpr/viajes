@@ -1,0 +1,30 @@
+{{> header}}
+<div class="contenedor center">
+    {{#if emailSend}}
+        <div class="text-success">
+            * {{emailSend}}
+        </div>    
+    {{else}}
+        <form action="/usuarios/recuperar-datos" method="post">
+            <div class="formtit">Recuperación</div>
+            <div>
+                <div>Email: </div>
+                <input type="text" name="email" value={{email}}>
+            </div>
+            <div>
+                <button type="button" id="btnSubmit" class="btn btn-success">Enviar&nbsp; <i class="fa fa-send-o"></i></button>
+            </div>
+        </form>
+        {{#if emailIntro}}
+            <div class="text-success infoita">
+                {{emailIntro}}
+            </div>
+        {{else if error}}
+            <div class="text-danger" id="msgError">
+                * {{error}}
+            </div>
+        {{/if}}
+    {{/if}}
+</div>
+<script src="/js/recovery.js"></script>
+<script src="/js/validEmail.js"></script>

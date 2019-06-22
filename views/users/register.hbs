@@ -15,15 +15,19 @@
 			<input type="password" name="password">
 		</div>
 		<div>
+			<div>Repite contraseña: </div>
+			<input type="password" name="password2">
+		</div>
+		<div>
 			<button type="button" class="btn btn-success" id="btnSubmit">Registrar&nbsp; <i class="fa fa-user-circle-o"></i></button>
 		</div>
 	</form>
 	<div class="text-danger" id="msgError">
 		{{#if error}}
 			* {{error}}
-		{{else}}
-			midsfsdssf
 		{{/if}}
 	</div>
 </div>
 <script src="/js/register.js"></script>
+<script src="/js/validEmail.js"></script>
+<script src="/js/validPassword.js"></script>

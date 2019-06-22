@@ -1,12 +1,12 @@
 {{> header}}
 <div class="contenedor center">
-{{#if error}}
-    <div class="text-danger" id="msgError">
-        * {{error}}
-    </div>
-{{else if success}}
-    <div class="text-success">
-        {{success}}
-    </div>
-{{/if}}
+    {{#if info}}
+        <div class="text-success">
+            {{info}}
+        </div>
+    {{else if error}}
+        <div class="text-danger" id="msgError">
+            * {{error}}
+        </div>
+    {{/if}}
 </div>

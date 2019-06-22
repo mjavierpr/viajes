@@ -16,10 +16,8 @@ module.exports = (sequelize, DataTypes) => {
 
   usuarios.associate = (models) => {
     models.usuarios.hasMany(models.viajes);
-  };
-
-  usuarios.associate = (models) => {
-    models.usuarios.hasOne(models.claves);
+    models.usuarios.hasOne(models.confirmaciones);
+    models.usuarios.hasOne(models.recuperaciones);
   };
 
   return usuarios;

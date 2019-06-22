@@ -6,7 +6,7 @@ header > nav > a:hover {color: beige; text-decoration: none; border-bottom: 1px 
 form {margin: 3em auto 2em auto; padding-bottom: 1em; width: 50%; display: flex; flex-direction: column; background-color: beige;}
 div.formtit {font-style: italic; margin-bottom: 1.1em; padding: 0.1em 0.7em; background-color: #e5f0f1;}
 form > div {display: flex; justify-content: center; padding: 5px 0; background-color: beige;}
-form > div > div:first-child {width: 20%; text-align: right; margin-right: 1em;}
+form > div > div:first-child {width: 25%; text-align: right; margin-right: 1em;}
 form > div > div.imgsTravels {margin-top: 1em;}
 form button {margin-top: 2em;}
 div#msgError {text-align: center;}
@@ -29,6 +29,7 @@ div.buttonsYN > a {margin: 0 1em;}
 div.center {text-align: center; margin-top: 2em;}
 div.fotEmail {margin-top: 2em;}
 div.infoita {font-size: 0.8em;}
+a.infoita {font-size: 0.9em; margin-top: 1em;}
 
 form > div.showImages {display: flex; justify-content: space-around; flex-wrap: wrap;}
 form > div.showImages > label.cardImage {width: 22%; margin: 1.3em 0 0 1em;}

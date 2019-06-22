@@ -4,15 +4,15 @@ const models = require('../models');  // conexión a la bbdd
 // Devuelte todos los viajes (aunque si hay muchos debemos limitar la consulta SELECT * FROM viajes LIMIT 8 y hacer paginación)
 async function getTravels() {
     try {
-        let rows = await models.viajes.findAll({
+        let travels = await models.viajes.findAll({
             include: [{
                 model: models.imagenPrincipal,
                 include: [
-                    models.images
+                    models.imagenes
                 ]
             }]
         });
-        return rows;
+        return travels;
     }catch(err) {
         return null;
     }
@@ -21,16 +21,16 @@ async function getTravels() {
 // Devuelve un viaje por su id
 async function getTravel(id) {
     try {
-        let row = await models.viajes.findByPk(id, {
+        let travel = await models.viajes.findByPk(id, {
             include: [{
                 model: models.imagenPrincipal,
                 include: [
-                    models.images
+                    models.imagenes
                 ]
             }]
         });
-        return row;
-    }catch(err) {
+        return travel;
+    }catch {
         return null;
     }
 }
@@ -46,7 +46,7 @@ async function addTravel(travel, userId, files) {
             usuarioId: userId,
             images: newImages
         }, {
-            include: [models.images]
+            include: [models.imagenes]
         });
         return newTravel ? newTravel : null;
     }catch(err) {
@@ -57,7 +57,7 @@ async function addTravel(travel, userId, files) {
 // Devuelve imágenes por la id de viaje
 async function getImages(id) {
     try {
-        let row = await models.images.findAll({where: {viajeId: id}});
+        let row = await models.imagenes.findAll({where: {viajeId: id}});
         return row;
     }catch(err) {
         return null;
@@ -69,7 +69,7 @@ async function addMainImg(imgId, travelId) {
     try {
         let row = await models.imagenPrincipal.create({
             imageId: imgId,
-            viajeId:travelId
+            viajeId: travelId
         });
         return row;
     }catch(err) {

@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   viajes.associate = (models) => {
     models.viajes.belongsTo(models.usuarios);
-    models.viajes.hasMany(models.images);
+    models.viajes.hasMany(models.imagenes);
     models.viajes.hasOne(models.imagenPrincipal);
   };
   return viajes;

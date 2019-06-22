@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   imagenPrincipal.associate = (models) => {
     models.imagenPrincipal.belongsTo(models.viajes);
-    models.imagenPrincipal.belongsTo(models.images);
+    models.imagenPrincipal.belongsTo(models.imagenes);
   };
   return imagenPrincipal;
 };

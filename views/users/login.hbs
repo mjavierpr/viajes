@@ -1,28 +1,35 @@
 {{> header}}
-<div class="contenedor">
-<form action="/usuarios/login" method="post">
-    <div class="formtit">Identificación</div>
-    <div>
-        <div>Email: </div>
-        <input type="text" name="email" value={{email}}>
-    </div>
-    <div>
-        <div>Contraseña: </div>
-        <input type="password" name="password">
-    </div>
-    <div>
-        <button type="button" id="btnSubmit" class="btn btn-success">Acceder&nbsp; <i class="fa fa-sign-in"></i></button>
-    </div>
-</form>
-<div class="text-danger" id="msgError">
-    {{#if error}}
-        * {{error}}
+<div class="contenedor center">
+    {{#if success}}
+        <div class="text-success">
+            {{success}}
+        </div>
     {{/if}}
-</div>
-{{#if success}}
-    <div class="text-success">
-        <i class="fa fa-thumbs-o-up"></i>&nbsp; {{info}}
+    <form action="/usuarios/login" method="post">
+        <div class="formtit">Identificación</div>
+        <div>
+            <div>Email: </div>
+            <input type="text" name="email" value={{email}}>
+        </div>
+        <div>
+            <div>Contraseña: </div>
+            <input type="password" name="password">
+        </div>
+        <div>
+            <button type="button" id="btnSubmit" class="btn btn-success">Acceder&nbsp; <i class="fa fa-sign-in"></i></button>
+        </div>
+        <div>
+            <a href="/usuarios/recuperar-datos" class="infoita">
+                ¿Has olvidado tu contraseña?
+            </a>
+        </div>
+    </form>
+    <div class="text-danger" id="msgError">
+        {{#if error}}
+            * {{error}}
+        {{/if}}
     </div>
-{{/if}}
 </div>
 <script src="/js/login.js"></script>
+<script src="/js/validEmail.js"></script>
+<script src="/js/validPassword.js"></script>
