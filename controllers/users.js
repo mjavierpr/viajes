@@ -183,7 +183,7 @@ async function existsKeyRecovery(key) {
     }
 }
 
-function changePassword(userId, newPass) {
+function updatePassword(userId, newPass) {
     return new Promise(async (resolve, reject) => {
         try {
             let hash = await bcrypt.hash(newPass, SALT_ROUNDS);
@@ -209,5 +209,5 @@ module.exports = {
     existsKeyRecovery,
     activateUser,
     emailRecovery,
-    changePassword
+    updatePassword
 }

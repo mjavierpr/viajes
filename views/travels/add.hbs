@@ -5,8 +5,12 @@
     <div>
         </label>
         <div>Destino: </div>
-        <input type="text" name="destino" class="fields" value={{destino}}>
+        <input type="text" name="destino" class="fields large" value={{destino}}>
     </div>
+    <div>
+        <div>Descripción: </div>
+        <textarea mame="descripcion" rows="3" class="fields large">{{descripcion}}</textarea>
+    </div>    
     <div>
         <div>Precio: </div>
         <input type="number" name="precio" class="fields" value={{precio}}>
@@ -24,14 +28,10 @@
         <input type="date" name="fecha_fin" class="fields" value={{fecha_fin}}>
     </div>
     <div>
-        <div>Descripción: </div>
-        <input type="text" name="descripcion" class="fields" value={{descripcion}}>
-    </div>
-    <div>
         <div class="imgsTravels"><i class="fa fa-file-image-o"></i>&nbsp; Imágenes: </div>
     </div>
     <div>
-        <input type='file' name='imgFiles' id="arrFiles" multiple>
+        <input type='file' name='imgFiles' id="arrFiles" multiple="multiple">
     </div>
     <div>
         <button type="button" class="btn btn-success" id="btnSubmit">Crear&nbsp; <i class="fa fa-send-o"></i></button>

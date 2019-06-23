@@ -1,3 +1,4 @@
+
 {{> header}}
 <div class="contenedor center">
 {{#if error}}
@@ -6,19 +7,19 @@
     </div>
 {{else}}
     <div class="text-success">
-        Viaje creado correctamente
+        Viaje actualizado correctamente
     </div>
-    <div class="infoita">Elige la imagen principal para mostrar</div>
-    <form action="/viaje/imagen-principal" method="post">
+    <div class="infoita">Elige las imágenes</div>
+    <form action="/viaje/imagenes" method="post">
         <div class="showImages">
             {{#each images}}
                 <label class="cardImage">
-                    <input type="radio" name="mainImgId" value="{{id}}">
+                    <input type="radio" name="mainImgId" value={{id}}>
                     <img src="/uploads/{{image}}" alt="Imagen viaje">
                 </label>
             {{/each}}
         </div>
-        <input type="text" name="travelId" value={{travelId}} hidden="hidden">
+        <input type="text" name="travelId" hidden="hidden" value={{travelId}}>
         <div>
             <button type="button" class="btn btn-success" id="btnSubmit">Elegir&nbsp; <i class="fa fa-send-o"></i></button>
         </div>
@@ -27,4 +28,4 @@
     </div>
 {{/if}}
 </div>
-<script src="/js/added.js"></script>
+<script src="/js/edited.js"></script>

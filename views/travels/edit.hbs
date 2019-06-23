@@ -1,0 +1,59 @@
+{{> header}}
+<div class="contenedor">
+<form action="/editar-viaje" method="post" enctype="multipart/form-data">
+    <div class="formtit">Editar viaje</div>
+        <div>
+            </label>
+            <div>Destino: </div>
+            <input type="text" name="destino" class="fields large" value={{destino}}>
+        </div>
+        <div>
+            <div>Descripción: </div>
+            <textarea name="descripcion" rows="3" class="fields large">{{descripcion}}</textarea>
+        </div>
+        <div>
+            <div>Precio: </div>
+            <input type="number" name="precio" class="fields" value={{precio}}>
+        </div>
+        <div>
+            <div>Descuento: </div>
+            <input type="number" name="descuento" class="fields" value={{descuento}}>
+        </div>
+        <div>
+            <div>Fecha inicio: </div>
+            <input type="date" name="fecha_inicio" class="fields" value={{dateIni}}>
+        </div>
+        <div>
+            <div>Fecha fin: </div>
+            <input type="date" name="fecha_fin" class="fields" value={{dateEnd}}>
+        </div>
+    <div>
+        <div class="imgsTravels"><i class="fa fa-file-image-o"></i>&nbsp; Imágenes: </div>
+    </div>
+    <div>
+        <label>
+            <input type="radio" name="newOrChoose" value="choose" checked="checked">&nbsp;
+            Cambiar imagen principal
+        </label>
+    </div>
+    <div>
+        <label>
+            <input type="radio" name="newOrChoose" value="new">&nbsp;
+            Elegir nuevas imágenes
+        </label>
+    </div>
+    <div>
+        <input type='file' name='imgFiles' id="arrFiles" multiple="multiple" disabled="disabled">
+    </div>
+    <input type="text" name="travelId" hidden="hidden" value={{travelId}}>
+    <div>
+        <button type="button" class="btn btn-success" id="btnSubmit">Enviar&nbsp; <i class="fa fa-send-o"></i></button>
+    </div>
+</form>
+<div class="text-danger" id="msgError">
+    {{#if error}}
+        * {{error}}
+    {{/if}}
+</div>
+</div>
+<script src="/js/edit.js"></script>

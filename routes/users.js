@@ -125,7 +125,7 @@ router.get('/recuperar-datos/cambiar-consigna/:clave', async (req, res) => {
 
 router.post('/recuperar-datos/cambiar-consigna', async (req, res) => {
   let { userId, password } = req.body;
-  let msg = await usersController.changePassword(userId, password);
+  let msg = await usersController.updatePassword(userId, password);
   if (msg == "") {
     res.render('users/login', { title: "Identificación", success: "Accede con tu nueva contraseña" });
   } else {

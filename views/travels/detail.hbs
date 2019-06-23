@@ -10,7 +10,7 @@
                 <div class='title'>{{destino}}</div>
                 <div class='hr'></div>
                 <div class='travel'>
-                    <img src="/uploads/{{imagenPrincipal.image.image}}" alt="{{destino}}">
+                    <img src="/uploads/{{imagenPrincipal.imagene.image}}" alt="{{destino}}">
                     <div>
                         <div>Precio: <span class="precio">{{precio}}</span><span class="space"></span><span class="descuento">{{descuento}}</span></div>
                         <div>Desde <span class="fecha">{{../dateIni}}</span> hasta <span class="fecha">{{../dateEnd}}</span></div>
@@ -20,5 +20,11 @@
             {{/with}}
         </div>
     {{/if}}
+    <div class="text-danger" id="msgError">
+        {{#if error}}
+            * {{error}}
+        {{/if}}
+    </div>
+</div>
 </div>
 <script src="/js/price.js"></script>
