@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     descuento: DataTypes.DECIMAL(6, 0),
     fecha_inicio: DataTypes.DATE,
     fecha_fin: DataTypes.DATE,
-    descripcion: DataTypes.STRING
+    descripcion: DataTypes.STRING(300)
   });
   viajes.associate = (models) => {
     models.viajes.belongsTo(models.usuarios);

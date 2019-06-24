@@ -133,4 +133,23 @@ router.post('/recuperar-datos/cambiar-consigna', async (req, res) => {
   }
 });
 
+router.get('/lista', isAdmin, async (req, res) => {
+  let users = await usersController.getUsers();
+  if (users) {
+    let usersmap = usersController.usersMap(users);
+    res.render('users/list', { title: "Lista", users: usersmap});
+  }else {
+    res.render('users/listEnd', { title: "Lista", error: "Error al acceder a la base de datos" });
+  }
+});
+
+router.post('/lista', isAdmin, async (req, res) => {
+  let changes = await usersController.changeRolActi(req.body);
+  if (changes) {
+    res.render('users/list', { title: "Lista", changes});
+  }else {
+    res.render('users/list', { title: "Lista", error: "Error al hacer los cambios" });
+  }
+});
+
 module.exports = router;

@@ -4,6 +4,7 @@ header {height: 4em; display: flex; justify-content: space-between; padding: 0 1
 header > nav > a {margin-left: 1em; color: #ddd;}
 header > nav > a:hover {color: beige; text-decoration: none; border-bottom: 1px solid #777;}
 form {margin: 3em auto 2em auto; padding-bottom: 1em; width: 55%; display: flex; flex-direction: column; background-color: beige;}
+form.large {width: 70%;}
 div.formtit {font-style: italic; margin-bottom: 1.1em; padding: 0.1em 0.7em; background-color: #e5f0f1;}
 form > div {display: flex; justify-content: center; padding: 5px 0; background-color: beige;}
 form > div > div:first-child {width: 25%; text-align: right; margin-right: 1em;}
@@ -35,6 +36,11 @@ a.infoita {font-size: 0.9em; margin-top: 1em;}
 form > div.showImages {display: flex; justify-content: space-around; flex-wrap: wrap;}
 form > div.showImages > label.cardImage {width: 22%; margin: 1.3em 0 0 1em;}
 form > div.showImages > label.cardImage > img {width: 100%;}
+
+div.tableu {display: table; width: 100%; padding-left: 0.8em;}
+div.tableu > div.rowu {display: table-row;}
+div.tableu > div.capt {font-weight: bold;}
+div.tableu > div.rowu > div.cellu {display: table-cell; text-align: left;}
 
 footer {background: #777; color: #bbb; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0.5em 0; margin-top: 1.3em;}
 footer > nav > a {color: #bbb; text-decoration: none;}

@@ -142,7 +142,7 @@ async function activateUser(userId) {
             { where: { id: userId } }
         );
         // Borra la clave de la tabla confirmaciones
-        await models.confirmaciones.destroy({ where: { id: userId } });
+        await models.confirmaciones.destroy({ where: { usuarioId: userId } });
         return (user.length ? true : false);
     } catch {
         return false;
@@ -192,12 +192,77 @@ function updatePassword(userId, newPass) {
                 { where: { id: userId } }
             );
             // Borra la clave de la tabla confirmaciones
-            await models.confirmaciones.destroy({ where: { id: userId } });
+            await models.recuperaciones.destroy({ where: { usuarioId: userId } });
             resolve(user ? "" : "No se ha podido cambiar la contraseña");
         } catch {
             resolve("Error al cambiar la contraseña");
         }
     });
+}
+
+async function getUsers() {
+    try {
+        let users = await models.usuarios.findAll();
+        return users;
+    } catch {
+        return null;
+    }
+}
+
+function usersMap(users) {
+    return users.map(user => {
+        return {id: user.id, usuario: user.usuario, email: user.email,
+          selectAdmin: user.rol == "administrador" ? "selected" : "",
+          selectUser: user.rol == "usuario" ? "selected" : "",
+          selectActiv: user.activo == true ? "selected" : "",
+          selectInactiv: user.activo == false ? "selected" : "",
+          rolIni: user.rol,
+          actIni: user.activo,
+
+        }
+      }
+    );
+}
+
+async function changeRolActi(changes) {
+    let msgChanges = "", msgPart;
+    try {
+        let long = changes.rol.length;
+        for (let i = 0; i < long; i++) {
+            msgPart = "";
+            let userId = changes.id[i];
+            let newRol = changes.rol[i];
+            if (newRol !== changes.rolIni[i]) {
+                await models.usuarios.update(
+                    { rol: newRol},
+                    { where: { id: userId } }
+                );
+                msgPart = "nuevo rol: <strong>" + newRol + "</strong><br>";
+            }
+            let newAct = changes.activo[i];
+            if (newAct !== changes.actIni[i]) {
+                await models.usuarios.update(
+                    { activo: newAct},
+                    { where: { id: userId } }
+                );
+                msgPart += "nuevo estado: <strong>" + (newAct == "true" ? "activo" : "inactivo") + "</strong><br>";
+            }
+            let newMail = changes["sendMail" + userId];
+            if (newMail == "send") {
+                msg = await emailRecovery(changes.email[i]);
+                if (msg == "") {
+                    msgPart += "enviado: <strong>correo</strong><br>";
+                } else {
+                    msgPart += "<strong><style class='text-danger'>Error</style></strong> al enviar correo<br>";
+                }
+            }
+            msgPart = msgPart == "" ? "" : "<strong>-- " + changes.usuario[i] + " --</strong><br>" + msgPart;
+            msgChanges += msgPart;
+        }
+        return msgChanges == "" ? "No se ha realizado ningún cambio" : "Cambios realizados correctamente<br>" + msgChanges;
+    }catch {
+        return null;
+    }
 }
 
 module.exports = {
@@ -209,5 +274,8 @@ module.exports = {
     existsKeyRecovery,
     activateUser,
     emailRecovery,
-    updatePassword
+    updatePassword,
+    getUsers,
+    usersMap,
+    changeRolActi
 }
