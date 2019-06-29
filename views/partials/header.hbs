@@ -6,6 +6,9 @@
         {{#if isAdmin}}
             <a href="http://localhost:3000/editar-viaje/{{travel.id}}"><i class="fa fa-edit"></i>&nbsp; Editar viaje</a>
         {{/if}}
-        <a href="http://localhost:3000"><i class="fa fa-home"></i>&nbsp; Inicio</a>
+        <a href="http://localhost:3000/p/1"><i class="fa fa-home"></i>&nbsp; Inicio</a>
+        {{#if isSession}}
+            <a href="http://localhost:3000/viajes/carrito" class="cart"><i class="fa fa-shopping-cart"></i><span class="numCart">{{itemsCart}}</span><span class="textCart">Carrito</span></a>
+        {{/if}}
     </nav>
 </header>

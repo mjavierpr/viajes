@@ -1,0 +1,26 @@
+{{> header}}
+<div class="contenedor center">
+    {{#if msg}}
+        <div class="text-info">{{msg}}</div>
+    {{else}}
+        <form class="showCart">
+            <div class="formtit">Tu carrito</div>
+            <div class="tableu">
+                <div class="rowu capt">
+                    <div class="cellu">Viaje</div>
+                    <div class="cellu">Precio</div>
+                    <div class="cellu">Personas</div>
+                    <div class="cellu">Precio total</div>
+                </div>
+                {{#each cart}}
+                    <div class="rowu">
+                        <div class="cellu"><a href="/detalle/{{id}}">{{destino}}</a></div>
+                        <div class="cellu">{{precio}}</div>
+                        <div class="cellu">{{personas}}</div>
+                        <div class="cellu">{{total}}</div>
+                    </div>
+                {{/each}}
+            </div>
+        </form>
+    {{/if}}
+</div>

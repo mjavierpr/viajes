@@ -11,10 +11,13 @@ router.use(function(req, res, next) {
 
 // Devuelve viajes en formato json
 router.get('/', async (req, res) => {
-    let maxPrice = req.query.maxPrecio;
-    let destiny = req.query.destino;
-    let dataApi = await apiController.getApiTravels(maxPrice, destiny);
-    res.send(dataApi);
+    let {maxPrice, destiny, limite, inicio} = req.query;
+    let dataApi = await apiController.getApiTravels(maxPrice, destiny, limite, inicio);
+    if (dataApi) {
+        res.send(dataApi);
+    }else {
+        res.send("Error ocurred");
+    }
 });
 
 // Crea viaje con los datos json recibidos
@@ -28,7 +31,6 @@ router.post('/', async (req, res) => {
     res.send(isCreated ? 'Viaje creado correctamente' : 'No se ha podido crear viaje');
 });
 
-// Información de la Api
 router.get('/info', async (req, res) => {
     res.render('api/info', { title: "Api info" });
 });

@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     models.viajes.belongsTo(models.usuarios);
     models.viajes.hasMany(models.imagenes);
     models.viajes.hasOne(models.imagenPrincipal);
+    models.viajes.hasMany(models.carrito);
   };
   return viajes;
 };

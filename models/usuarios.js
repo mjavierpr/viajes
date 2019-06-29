@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     models.usuarios.hasMany(models.viajes);
     models.usuarios.hasOne(models.confirmaciones);
     models.usuarios.hasOne(models.recuperaciones);
+    models.usuarios.hasMany(models.carrito);
   };
 
   return usuarios;

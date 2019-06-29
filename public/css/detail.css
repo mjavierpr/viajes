@@ -9,6 +9,9 @@ body { font-size: 1.2em; background-color: #f9f9f9; }
 #showDetail > div.travel > div:nth-child(2) span.descuento {text-decoration:line-through; color: #889;}
 #showDetail > div.travel > div:nth-child(2) span.space {margin-left: 2em;}
 #showDetail > div.travel > div:nth-child(2) span.fecha {margin: 0 0.2em; color: rgb(101, 90, 28); font-size: 1.1em;}
+#showDetail > div.travel > div > form.carrito {margin-top: 0.8em;}
+#showDetail > div.travel > div > form.carrito > button {padding: 0.4em 1.2em; background-color: #ff8000; color: white; text-decoration: none; border: none;}
+#showDetail > div.travel > div > form.carrito > label > input {width: 20%;}
 #showDetail > div.images {display: flex; width: 50rem; justify-content: space-between; flex-wrap: wrap; margin: 0 auto; padding: 0;}
 #showDetail > div.images > img {width: 45%; margin-top: 0.5em; -webkit-box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.5); box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.5); transition: transform 0.5s;}
 #showDetail img:hover {transform: scale(1.4);}

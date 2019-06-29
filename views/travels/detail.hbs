@@ -15,6 +15,13 @@
                         <div>Precio: <span class="precio">{{precio}}</span><span class="space"></span><span class="descuento">{{descuento}}</span></div>
                         <div>Desde <span class="fecha">{{../dateIni}}</span> hasta <span class="fecha">{{../dateEnd}}</span></div>
                         <div>{{descripcion}}</div>
+                        {{#if ../isSession}}
+                            <form action="/viajes/agregar-carrito" method="post" class="carrito">
+                                <label>Número personas: <input type="number" name="persons" value="1" min="1"></label>                            
+                                <button><i class="fa fa-cart-plus"></i>&nbsp; Añadir al carrito</button>
+                                <input type="text" value="{{id}}" name="idTravel" hidden="hidden">
+                            </form>
+                        {{/if}}
                     </div>
                 </div>
                 <div class="images">
@@ -25,11 +32,16 @@
             {{/with}}
         </div>
     {{/if}}
-    <div class="text-danger" id="msgError">
-        {{#if error}}
-            * {{error}}
+    <div class="text-danger center" id="msgError">
+        {{#if error2}}
+            * {{error2}}
         {{/if}}
     </div>
+    {{#if success}}
+        <div class="text-success center">
+            {{success}}
+        </div>
+    {{/if}}    
 </div>
 </div>
 <script src="/js/price.js"></script>

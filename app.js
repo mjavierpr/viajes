@@ -26,7 +26,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+// initialize express-session to allow to track the logged-in user across sessions.
 app.use(session({
   secret: 'miClaveSecreta',
   name: 'sesionUsuario',

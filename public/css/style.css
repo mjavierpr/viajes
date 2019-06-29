@@ -3,8 +3,11 @@ body {font-size: 1.1em;}
 header {height: 4em; display: flex; justify-content: space-between; padding: 0 1.1em; align-items: center; background-color: #223344; color: #ddd;}
 header > nav > a {margin-left: 1em; color: #ddd;}
 header > nav > a:hover {color: beige; text-decoration: none; border-bottom: 1px solid #777;}
+header > nav > a.cart > span.textCart {padding-left: 1em;}
+header > nav > a.cart > span.numCart {position: absolute; margin: -0.4em 0 0 -0.1em; font-size: 0.7em; background-color: #edd; color: #333; border-radius:50%; padding: 0 0.4em;}
 form {margin: 3em auto 2em auto; padding-bottom: 1em; width: 55%; display: flex; flex-direction: column; background-color: beige;}
 form.large {width: 70%;}
+form.carrito {width: 100%; display: block; padding: 1em;}
 div.formtit {font-style: italic; margin-bottom: 1.1em; padding: 0.1em 0.7em; background-color: #e5f0f1;}
 form > div {display: flex; justify-content: center; padding: 5px 0; background-color: beige;}
 form > div > div:first-child {width: 25%; text-align: right; margin-right: 1em;}
@@ -23,7 +26,7 @@ div.infoapi > div.apicont > div > div {padding: 0.7em; border-bottom: 1px solid 
 div.contenedor {min-height: 80vh;}
 section.showTravels {display: flex; justify-content: space-around; flex-wrap: wrap; width: 100%;}
 section.showTravels > a.card {width: 22%; text-decoration: none; margin-top: 1.3em;}
-section.showTravels > a.card > img {width: 100%;}
+section.showTravels > a.card > img {width: 100%; height: 100%;}
 section.showTravels > a.card > .cardinfo {background-color: #ddeeff; color: #222; font-size: 0.9em; font-weight: bold; display: flex; justify-content: space-between;}
 section.showTravels > a.card > .cardinfo > .precio {font-size: 1.3em; color: white; background-color: #4477dd; padding: 0 1em; height: 100%; display: flex; align-items: center;}
 section.showTravels > a.card > .cardinfo > div > .descuento {text-decoration:line-through; color: #224466;}

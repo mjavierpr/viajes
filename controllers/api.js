@@ -3,18 +3,24 @@ const Op = Sequelize.Op;
 const travelsController = require('./travels');
 
 // devuelve los primeros 20 registros de la base de datos
-async function getApiTravels(maxPrice, destiny) {
-    let rows, query;
+async function getApiTravels(maxPrice, destiny, limit = 10, offset = 0) {
+    limit = Number(limit);
+    limit = limit > 10 ? 10 : limit;
+    offset = Number(offset);
+    offset = offset > await models.viajes.count() ? 0 : offset;
+    let rows, condition;
     if (maxPrice && destiny) {
-        query = {where: {precio: {[Op.lte]: maxPrice}, destino: {[Op.substring]: destiny}}, limit: 20};
+        condition = {precio: {[Op.lte]: maxPrice}, destino: {[Op.substring]: destiny}};
     }else if (maxPrice) {
-        query = {where: {precio: {[Op.lte]: maxPrice}}, limit: 20};
+        conditio = {precio: {[Op.lte]: maxPrice}};
     }else if (destiny) {
-        query = {where: {destino: {[Op.substring]: destiny}}, limit: 20};
+        condition = {destino: {[Op.substring]: destiny}};
+    }else if (limit) {
+        condition = {};
 	}else {
-        query = {limit: 20};
+        return null;
     }
-    rows = await travelsController.getTravels(query);
+    rows = await travelsController.getTravels(offset, limit, condition);
     return rows;
 }
 

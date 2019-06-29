@@ -5,7 +5,11 @@ const uploads = require('../config/multer.js');
 const travelsController = require('../controllers/travels');
 const {isAdmin} = require("../middlewares/isAdmin");
 
-router.get('/:page?', async (req, res) => {
+router.get('/', async (req, res) => {
+  res.redirect('/p/1');
+});
+
+router.get('/p/:page?', async (req, res) => {
   let page = req.params.page, travelsPerPage = travelsController.travelsPerPage, offset = 0, msg = null;
   if (page) {
     page = Number(page);
@@ -13,17 +17,18 @@ router.get('/:page?', async (req, res) => {
       offset = page * travelsPerPage - travelsPerPage;
     }else {
       req.flash('error', "La página " + req.params.page + " no existe");
-      res.redirect('/1');
+      res.redirect('/p/1');
     }
   }else {
-    res.redirect('/1');
+    res.redirect('/p/1');
   }
   let travels = await travelsController.getTravels(offset);
   if (travels) {
     let userName = req.session.name;
     let isAdmin = (req.session.rol == "administrador" ? "admin" : null);
     let pagination = await travelsController.pagination(page);
-    res.render('home', {title: "Viajes", travels, userName, isAdmin, msg: req.flash('error'), pagination});
+    let itemsCart = await travelsController.itemsCart(req.session.userId);
+    res.render('home', {title: "Viajes", travels, userName, isAdmin, msg: req.flash('error'), pagination, itemsCart, isSession: req.session.name});
   }else {
     res.render('home', {title: "Viajes", error: "No hay viajes para mostrar"});
   }
@@ -35,14 +40,10 @@ router.get('/detalle/:id', async (req, res) => {
   if (travel) {
     let dateIni = moment(travel.fecha_inicio).format('DD-MM-YY');
     let dateEnd = moment(travel.fecha_fin).format('DD-MM-YY');
-
     let mainImg = travel.imagenPrincipal.imagene.imagen;
     let imgs = travelsController.travelNoMainImg(travel.imagenes, mainImg);
-
-
-
-
-    res.render('travels/detail', {title: "Detalle", travel, imgs, dateIni, dateEnd, isAdmin: req.session.rol == "administrador"});
+    let itemsCart = await travelsController.itemsCart(req.session.userId);
+    res.render('travels/detail', {title: "Detalle", travel, imgs, dateIni, dateEnd, isAdmin: req.session.rol == "administrador", error2: req.flash('error'), success: req.flash('info'), itemsCart, isSession: req.session.name});
   }else {
     res.render('travels/detail', {title: "Detalle", error: "No es posible mostrar detalle"});
   }
@@ -134,6 +135,31 @@ router.post('/viaje/imagenes', isAdmin, async (req, res) => {
     res.render('travels/editEnd', {title: "Editar viaje"});
   }else {
     res.render('travels/editEnd', {title: "Editar viaje", error: "Error al asignar imagen principal"});
+  }
+});
+
+router.get('/viajes/carrito/', async (req, res) => {
+  if (req.session.name) {
+    let cart = await travelsController.getCart(req.session.userId);
+    if (cart.length) {
+      res.render('travels/carrito', {title: "Carrito", cart})
+    }else {
+      res.render('travels/carrito', {title: "Carrito", msg: "No tienes ningún viaje en el carrito"})
+    }
+  } else {
+    res.render('travels/carrito', { title: "Carrito", msg: "indentifícate para comprar"});
+  }
+});
+
+router.post('/viajes/agregar-carrito', async (req, res) => {
+  let {idTravel, persons} = req.body;
+  let addCart = await travelsController.addCart(idTravel, req.session.userId, persons)
+  if (addCart) {
+    req.flash('info', "Viaje añadido correctamente");
+    res.redirect('/detalle/' + idTravel);
+  } else {
+    req.flash('error', "No se ha podido añadir al carrito");
+    res.redirect('/detalle/' + idTravel);
   }
 });
 
