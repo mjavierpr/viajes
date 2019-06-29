@@ -9,35 +9,34 @@
                     <div class="cellu">Email</div>
                     <div class="cellu">Rol</div>
                     <div class="cellu">Estado</div>
-                    <div class="cellu">Enviar mail</div>
+                    <div class="cellu">E-mail</div>
                 </div>
                 {{#each users}}
                     <div class="rowu">
                         <div class="cellu">{{usuario}}</div>
                         <div class="cellu">{{email}}</div>
                         <div class="cellu">
-                            <select name="rol" size="1" class={{id}}>
+                            <select size="1" name="role" class={{id}}>
                                 <option value="administrador" {{selectAdmin}}>Administrador</option>
                                 <option value="usuario" {{selectUser}}>Usuario</option>
                             </select>
                         </div>
                         <div class="cellu">
-                            <select name="activo" size="1" class={{id}}>
+                            <select size="1" name="active" class={{id}}>
                                 <option value="true" {{selectActiv}}>Activo</option>
                                 <option value="false" {{selectInactiv}}>Inactivo</option>
                             </select>
                         </div>
-                        <input type="checkbox" name="sendMail{{id}}" value="no" id="mail{{id}}" class="chkbox">
-                        <input type="text" name="rolIni" id="rol{{id}}" hidden="hidden" value={{rolIni}}>
-                        <input type="text" name="actIni" id="act{{id}}" hidden="hidden" value={{actIni}}>
-                        <input type="text" name="usuario" hidden="hidden" value={{usuario}}>
-                        <input type="text" name="id" hidden="hidden" value={{id}}>
-                        <input type="text" name="email" hidden="hidden" value={{email}}>
+                        <div class="cellu">
+                            <button name="sendMail" class={{id}}>Enviar</button>
+                        </div>
+                        <input type="text" id="rol{{id}}" hidden="hidden" value={{rolIni}}>
+                        <input type="text" id="act{{id}}" hidden="hidden" value={{actIni}}>
+                        <input type="text" id="user{{id}}" hidden="hidden" value={{usuario}}>
+                        <input type="text" id="id{{id}}" hidden="hidden" value={{id}}>
+                        <input type="text" id="mail{{id}}" hidden="hidden" value={{email}}>
                     </div>                    
                 {{/each}}
-            </div>
-            <div>
-                <button type="button" id="btnSubmit" class="btn btn-success">Enviarr&nbsp; <i class="fa fa-send-o"></i></button>
             </div>
         </form>
     {{/if}}
@@ -46,10 +45,7 @@
             * {{error}}
         {{/if}}
     </div>
-    {{#if changes}}
-        <div class="text-success">
-            {{{changes}}}
-        </div>
-    {{/if}}
+    <div class="text-success" id="msgSuccess">
+    </div>
 </div>
 <script src="/js/list.js"></script>

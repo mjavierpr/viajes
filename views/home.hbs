@@ -4,7 +4,7 @@
     </div>
     <nav>
         {{#if isAdmin}}
-            <a href="http://localhost:3000/usuarios/lista"><i class="fa fa fa-users"></i>&nbsp; Lista usuarios</a>        
+            <a href="http://localhost:3000/usuarios/lista"><i class="fa fa fa-users"></i>&nbsp; Lista usuarios</a>
             <a href="http://localhost:3000/crear-viaje"><i class="fa fa-plus-square-o"></i>&nbsp; Crear viaje</a>
         {{/if}}
         {{#if userName}}
@@ -17,25 +17,42 @@
     </nav>
 </header>
 <div class="contenedor">
-<section class="showTravels">
-    {{#if error}}
-        <div class="text-danger" id="msgError">
-            * {{error}}
-        </div>
-    {{else}}
-        {{#each travels}}
-            <a href="http://localhost:3000/detalle/{{id}}" class="card">
-                <img src="/uploads/{{imagenPrincipal.imagene.image}}" alt="{{destino}}">
-                <div class="cardinfo">
-                    <div>
-                        <div>{{destino}}</div>
-                        <div class="descuento">{{descuento}}</div>
-                    </div>
-                    <div class="precio">{{precio}}</div>
-                </div>
-            </a>
-        {{/each}}
+    {{#if msg}}
+        <div class="center text-info">{{msg}}</div>
     {{/if}}
-</section>
+    <section class="showTravels">
+        {{#if error}}
+            <div class="text-danger" id="msgError">
+                * {{error}}
+            </div>
+        {{else}}
+            {{#each travels}}
+                <a href="http://localhost:3000/detalle/{{id}}" class="card">
+                    <img src="/uploads/{{imagenPrincipal.imagene.imagen}}" alt="{{destino}}">
+                    <div class="cardinfo">
+                        <div>
+                            <div>{{destino}}</div>
+                            <div class="descuento">{{descuento}}</div>
+                        </div>
+                        <div class="precio">{{precio}}</div>
+                    </div>
+                </a>
+            {{/each}}
+        {{/if}}
+    </section>
+    <div class="pageForwBack">
+        {{#with pagination}}
+            {{#if btnIni}}
+                <a href="http://localhost:3000/1" class="btnPgBack"><i class="fa fa-angle-double-left"></i> Primera</a>
+                <a href="http://localhost:3000/{{btnBack}}" class="btnPgBack">{{btnBack}} <i class="fa fa-caret-left"></i></a>
+            {{/if}}
+            <span class="currentPge">{{page}}</span>
+            {{#if btnEnd}}
+                <a href="http://localhost:3000/{{btnForw}}" class="btnPgBack"><i class="fa fa-caret-right"></i> {{btnForw}}</a>
+                <a href="http://localhost:3000/{{btnEnd}}" class="btnPgForw"><i class="fa fa-angle-double-right"></i> Última</a>
+            {{/if}}   
+        {{/with}}          
+    </div>
 </div>
+
 <script src="/js/price.js"></script>

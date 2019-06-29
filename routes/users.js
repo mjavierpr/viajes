@@ -3,23 +3,19 @@ const router = express.Router();
 const usersController = require('../controllers/users');
 const { isAdmin } = require("../middlewares/isAdmin");
 
-/* GET users listing. */
 router.get('/', function (req, res) {
   res.send('respond with a resource');
 });
 
-// Envía a formulario de register.hbs para registrar nuevo usuario
 router.get('/registrar', (req, res) => {
   res.render('users/register', { title: "Registro", error: req.flash('error') });
 });
 
-// Recoge los datos del formulario de register.hbs
 router.post('/registrar', async (req, res) => {
   let { usuario, email, password } = req.body;
   // Registro de nuevo usuario en la bbdd
   let msg = await usersController.register(usuario, email, password);
   if (msg == "") {
-    // Envía email de confirmación y agrega clave a tabla confirmaciones
     msg = await usersController.emailConfirmation(email);
     if (msg == "") {
       res.render('users/confirmation', { title: "Confirmación", info: "Te hemos enviado un email de confirmación" });
@@ -31,9 +27,7 @@ router.post('/registrar', async (req, res) => {
   }
 });
 
-// Envía a formulario de login.hbs para loguearse
 router.get('/login', (req, res) => {
-  // si existe la sesión
   if (req.session.name) {
     res.redirect('/');
   } else {
@@ -41,10 +35,8 @@ router.get('/login', (req, res) => {
   }
 });
 
-// Recoge los datos del formulario de login.hbs
 router.post('/login', async (req, res) => {
   let { email, password } = req.body;
-  // Si el usuario tiene registro y está activo, devuelve el usuario y si no devuelve un mensaje de error
   let resReg = await usersController.checkRegister(email, password);
   if (typeof resReg === "object") {
     req.session.email = resReg.email;
@@ -59,7 +51,6 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Muestra la información del usuario en data.hbs
 router.get('/datos-usuario', isAdmin, async (req, res) => {
   let user = await usersController.getUser(req.session.email);
   if (user) {
@@ -69,15 +60,12 @@ router.get('/datos-usuario', isAdmin, async (req, res) => {
   }
 });
 
-// Cierra sesión Muestra la información del usuario en userdata.hbs
 router.get('/logout', async (req, res) => {
   req.session.destroy();
   res.redirect('/');
 });
 
-// Recibe la confirmación de registro desde el email del usuario
 router.get('/confirmar-email/:clave', async (req, res) => {
-  // Si la clave de confirmación existe, devuelve el usuario y si no null
   let data = await usersController.existsKeyConfirmation(req.params.clave);
   if (Array.isArray(data)) {
     let userId = data[0].usuarioId;
@@ -143,13 +131,33 @@ router.get('/lista', isAdmin, async (req, res) => {
   }
 });
 
-router.post('/lista', isAdmin, async (req, res) => {
-  let changes = await usersController.changeRolActi(req.body);
+router.get('/lista/cambiar-rol/:id/:role', isAdmin, async (req, res) => {
+  let changes = await usersController.changeRol(req.params.id, req.params.role);
   if (changes) {
-    res.render('users/list', { title: "Lista", changes});
+    res.send('ok');
   }else {
-    res.render('users/list', { title: "Lista", error: "Error al hacer los cambios" });
+    res.send('error');
   }
 });
+
+router.get('/lista/cambiar-activo/:id/:active', isAdmin, async (req, res) => {
+  let changes = await usersController.changeActive(req.params.id, req.params.active);
+  if (changes) {
+    res.send('ok');
+  }else {
+    res.send('error');
+  }
+});
+
+router.get('/lista/enviar-mail/:email', isAdmin, async (req, res) => {
+  let mail = await usersController.emailRecovery2(req.params.email);
+  if (mail) {
+    res.send('ok');
+  }else {
+    res.send('error');
+  }
+});
+
+
 
 module.exports = router;

@@ -9,23 +9,25 @@
     <div class="text-success">
         Viaje actualizado correctamente
     </div>
-    <div class="infoita">Elige las imágenes</div>
-    <form action="/viaje/imagenes" method="post">
-        <div class="showImages">
-            {{#each images}}
-                <label class="cardImage">
-                    <input type="radio" name="mainImgId" value={{id}}>
-                    <img src="/uploads/{{image}}" alt="Imagen viaje">
-                </label>
-            {{/each}}
-        </div>
-        <input type="text" name="travelId" hidden="hidden" value={{travelId}}>
-        <div>
-            <button type="button" class="btn btn-success" id="btnSubmit">Elegir&nbsp; <i class="fa fa-send-o"></i></button>
-        </div>
-    </form>
-    <div class="text-danger" id="msgError">
-    </div>
+    {{#if newOrChoose}}
+		<div class="infoita">Elige las imágenes</div>
+		<form action="/viaje/imagenes" method="post">
+			<div class="showImages">
+				{{#each images}}
+					<label class="cardImage">
+						<input type="radio" name="mainImgId" value={{id}}>
+						<img src="/uploads/{{imagen}}" alt="Imagen viaje">
+					</label>
+				{{/each}}
+			</div>
+			<input type="text" name="travelId" hidden="hidden" value={{travelId}}>
+			<div>
+				<button type="button" class="btn btn-success" id="btnSubmit">Elegir&nbsp; <i class="fa fa-send-o"></i></button>
+			</div>
+		</form>
+		<div class="text-danger" id="msgError">
+		</div>
+	{{/if}}
 {{/if}}
 </div>
 <script src="/js/edited.js"></script>

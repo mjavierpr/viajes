@@ -11,6 +11,8 @@ form > div > div:first-child {width: 25%; text-align: right; margin-right: 1em;}
 form > div > .large {width: 40%;}
 form > div > div.imgsTravels {margin-top: 1em;}
 form button {margin-top: 2em;}
+form button[name="sendMail"] {margin: 0; padding: 0 0.8em; margin-bottom: 0.05em; border: 1px solid #ccc; background-color: white;}
+form button[name="sendMail"]:hover {background-color: #eef;}
 div#msgError {text-align: center;}
 
 div.infoapi {margin: 4em auto 2em auto; display: flex; flex-direction: column; min-height: 71vh; width: 100%; align-items: center;}
@@ -41,6 +43,10 @@ div.tableu {display: table; width: 100%; padding-left: 0.8em;}
 div.tableu > div.rowu {display: table-row;}
 div.tableu > div.capt {font-weight: bold;}
 div.tableu > div.rowu > div.cellu {display: table-cell; text-align: left;}
+
+div.pageForwBack {margin: 2em 0 3em 2.2em; display: flex; justify-content: center; align-items: center;}
+div.pageForwBack > a {background-color: #f2f5f8; border-radius: 4px 4px 4px 4px; border: 1px solid #b2b3b3; margin: 0 0.4em; padding: 6px 14px; text-decoration: none;}
+div.pageForwBack > span.currentPge {font-weight: bold; color: blue; margin: 0 1.2em;}
 
 footer {background: #777; color: #bbb; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0.5em 0; margin-top: 1.3em;}
 footer > nav > a {color: #bbb; text-decoration: none;}

@@ -1,11 +1,9 @@
-// Este fichero tiene las consultas a la bbdd
 const models = require('../models');  // conexión a la bbdd
 const bcrypt = require('bcrypt');
 const SALT_ROUNDS = 10;
 const emailUtils = require('../utils/email');
 const Server = 'http://localhost:3000';
 
-// Registra un nuevo usuario en la bbdd
 function register(usuario, email, password) {
     return new Promise(async (resolve, reject) => {
         let msg = await validateMsg(usuario, email, password);
@@ -31,7 +29,6 @@ function register(usuario, email, password) {
     });
 }
 
-// Comprueba si el usuario tiene registro en la bbdd. Si lo tiene devuelve el usuario y si no null
 function checkRegister(email, password) {
     return new Promise(async (resolve, reject) => {
         try {
@@ -99,7 +96,6 @@ async function existsEmail(email) {
     return (row.length > 0 ? true : false);
 }
 
-// Devuelve los datos del usuario
 async function getUser(email) {
     try {
         let user = await models.usuarios.findAll({ where: { email: email } });
@@ -109,19 +105,20 @@ async function getUser(email) {
     }
 }
 
-// envía email con enlace de confirmación a usurio recién regstrado y agrega clave a tabla confirmaciones
 async function emailConfirmation(email) {
     try {
         let keyLink = emailUtils.generateKeylink();
-        emailUtils.sendMail(email, 'confirmation', 'Viajes - Confirmación', "Pincha este enlace", Server + '/usuarios/confirmar-email/' + keyLink);
-        let user = await models.usuarios.findAll({ where: { email: email } });
-        let userId = user[0].id;
-        let newKey = await models.confirmaciones.create({
-            usuarioId: userId, clave: keyLink
-        });
-        return newKey ? "" : "Se ha producido un error";
+        let msg = await emailUtils.sendEmail(email, 'confirmation', 'Viajes - Confirmación', "Pincha este enlace", Server + '/usuarios/confirmar-email/' + keyLink);
+        if (msg) {
+            let user = await models.usuarios.findAll({ where: { email: email } });
+            let userId = user[0].id;
+            msg = await models.confirmaciones.create({
+                usuarioId: userId, clave: keyLink
+            });
+        }
+        return msg ? "" : "Se ha producido un error";
     } catch {
-        return "Error al acceder a la base de datos";
+        return "Error al tratar de enviar email de confirmación";
     }
 }
 
@@ -134,7 +131,6 @@ async function existsKeyConfirmation(key) {
     }
 }
 
-// Cambia el valor booleano del campo activo de la tabla usuarios
 async function activateUser(userId) {
     try {
         let user = await models.usuarios.update(
@@ -149,24 +145,27 @@ async function activateUser(userId) {
     }
 }
 
-// envía email con enlace de recuperación a usuario agrega clave a tabla recuperaciones
 async function emailRecovery(email) {
     let msg = "";
     try {
         let keyLink = emailUtils.generateKeylink();
-        emailUtils.sendMail(email, 'recovery', 'Viajes - Recuperación', "Pincha este enlace", Server + '/usuarios/recuperar-datos/cambiar-consigna/' + keyLink);
-        let user = await models.usuarios.findAll({ where: { email: email } });
-        if (user.length) {
-            let userId = user[0].id;
-            let newKey = await models.recuperaciones.create({
-                usuarioId: userId,
-                clave: keyLink
-            });
-            if (!newKey) {
-                msg = "Error al acceder a la base de datos";
-            }
-        } else {
-            msg = "El email no existe en la base de datos";
+        let newMail = await emailUtils.sendEmail(email, 'recovery', 'Viajes - Recuperación', "Pincha este enlace", Server + '/usuarios/recuperar-datos/cambiar-consigna/' + keyLink);
+        if (newMail) {
+            let user = await models.usuarios.findAll({ where: { email: email } });
+            if (user.length) {
+                let userId = user[0].id;
+                let newKey = await models.recuperaciones.create({
+                    usuarioId: userId,
+                    clave: keyLink
+                });
+                if (!newKey) {
+                    msg = "Error al acceder a la base de datos";
+                }
+            } else {
+                msg = "El email no existe en la base de datos";
+            }  
+        }else {
+            msg = "Error al enviar email";
         }
     } catch {
         msg = "Se ha producido un error";
@@ -218,48 +217,39 @@ function usersMap(users) {
           selectInactiv: user.activo == false ? "selected" : "",
           rolIni: user.rol,
           actIni: user.activo,
-
         }
       }
     );
 }
 
-async function changeRolActi(changes) {
-    let msgChanges = "", msgPart;
+async function changeRol(userId, newRole) {
     try {
-        let long = changes.rol.length;
-        for (let i = 0; i < long; i++) {
-            msgPart = "";
-            let userId = changes.id[i];
-            let newRol = changes.rol[i];
-            if (newRol !== changes.rolIni[i]) {
-                await models.usuarios.update(
-                    { rol: newRol},
-                    { where: { id: userId } }
-                );
-                msgPart = "nuevo rol: <strong>" + newRol + "</strong><br>";
-            }
-            let newAct = changes.activo[i];
-            if (newAct !== changes.actIni[i]) {
-                await models.usuarios.update(
-                    { activo: newAct},
-                    { where: { id: userId } }
-                );
-                msgPart += "nuevo estado: <strong>" + (newAct == "true" ? "activo" : "inactivo") + "</strong><br>";
-            }
-            let newMail = changes["sendMail" + userId];
-            if (newMail == "send") {
-                msg = await emailRecovery(changes.email[i]);
-                if (msg == "") {
-                    msgPart += "enviado: <strong>correo</strong><br>";
-                } else {
-                    msgPart += "<strong><style class='text-danger'>Error</style></strong> al enviar correo<br>";
-                }
-            }
-            msgPart = msgPart == "" ? "" : "<strong>-- " + changes.usuario[i] + " --</strong><br>" + msgPart;
-            msgChanges += msgPart;
-        }
-        return msgChanges == "" ? "No se ha realizado ningún cambio" : "Cambios realizados correctamente<br>" + msgChanges;
+        await models.usuarios.update(
+            { rol: newRole},
+            { where: { id: userId } }
+        );
+        return 'ok';
+    }catch {
+        return null;
+    }
+}
+
+async function changeActive(userId, newActiv) {
+    try {
+        await models.usuarios.update(
+            { activo: newActiv},
+            { where: { id: userId } }
+        );
+        return 'ok';
+    }catch {
+        return null;
+    }
+}
+
+async function emailRecovery2(email) {
+    try {
+        msg = await emailRecovery(email);
+        return msg == "" ? 'ok' : null;
     }catch {
         return null;
     }
@@ -277,5 +267,7 @@ module.exports = {
     updatePassword,
     getUsers,
     usersMap,
-    changeRolActi
+    changeRol,
+    changeActive,
+    emailRecovery2
 }

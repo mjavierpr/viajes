@@ -1,8 +1,8 @@
-// Este fichero tiene las consultas a la bbdd
-const models = require('../models');  // conexión a la bbdd
+const models = require('../models');
 
-// Devuelte todos los viajes (aunque si hay muchos debemos limitar la consulta SELECT * FROM viajes LIMIT 8 y hacer paginación)
-async function getTravels() {
+let travelsPerPage = 4;
+
+async function getTravels(offset) {
     try {
         let travels = await models.viajes.findAll({
             include: [{
@@ -10,15 +10,15 @@ async function getTravels() {
                 include: [
                     models.imagenes
                 ]
-            }]
+            }],
+            limit: travelsPerPage, offset: offset
         });
         return travels;
-    }catch(err) {
+    }catch {
         return null;
     }
 }
 
-// Devuelve un viaje por su id
 async function getTravel(id) {
     try {
         let travel = await models.viajes.findByPk(id, {
@@ -27,7 +27,11 @@ async function getTravel(id) {
                 include: [
                     models.imagenes
                 ]
-            }]
+            },
+            {
+                model: models.imagenes
+            }
+        ]
         });
         return travel;
     }catch {
@@ -35,11 +39,10 @@ async function getTravel(id) {
     }
 }
 
-// Añade un viaje y lo devuelve
 async function addTravel(travel, userId, files) {
     try {
         let newImages = files.map(file => {
-            return {"image": file.filename};
+            return {"imagen": file.filename};
         });
         let newTravel = await models.viajes.create(
             { ...travel,
@@ -54,7 +57,6 @@ async function addTravel(travel, userId, files) {
     }
 }
 
-// Devuelve imágenes por la id de viaje
 async function getImages(id) {
     try {
         let row = await models.imagenes.findAll({where: {viajeId: id}});
@@ -64,7 +66,6 @@ async function getImages(id) {
     }
 }
 
-// Añade imagen principal a la tabla imagenPrincipal
 async function addMainImg(imgId, travelId) {
     try {
         let row = await models.imagenPrincipal.create({
@@ -78,9 +79,6 @@ async function addMainImg(imgId, travelId) {
 }
 
 async function updateTravelNallImgs(travel, userId, travelId, files) {
-
-
-    console.log("-------travelid", travelId);
     try {
         let newTravel = await models.viajes.update(
             {   ...travel,
@@ -88,18 +86,13 @@ async function updateTravelNallImgs(travel, userId, travelId, files) {
             },
             { where: { id: travelId } }
         );
-            console.log("---", newTravel);
-
         // update no admite include
         let newImages = files.map(file => {
-            return {"image": file.filename, "viajeId": travelId};
+            return {"imagen": file.filename, "viajeId": travelId};
         });
         await models.imagenes.destroy({
              where: { viajeId: travelId }
         });
-
-        console.log("---", newImages);
-
         await models.imagenes.bulkCreate( newImages );
         return (newTravel ? newTravel : null);
     } catch {
@@ -127,13 +120,51 @@ async function updateMainImg(imgId, travelId) {
             { imageneId: imgId },
             { where: { viajeId: travelId } }
         );
+        // proceso interrumpido en la creación de viaje por lo que no se creó el registro de imagen principal
+        if (row[0] == 0) {
+            row = addMainImg(imgId, travelId);
+        }      
         return row;
     }catch {
-        return null;
+        return row;
     }
 }
 
+function travelNoMainImg(imgs, main) {
+    newImgs = imgs.filter(img => img.imagen !== main);
+    return newImgs;
+}
+
+async function pagination(page) {
+    let pageN = Number(page);
+    let totalTravels = await models.viajes.count();
+    if(pageN == 1) {
+        btnIni = null;
+        btnBack = null;
+        btnForw = pageN + 1;
+        btnEnd = parseInt(totalTravels / travelsPerPage) + ((totalTravels % travelsPerPage) == 0 ? 0 : 1);
+    }else if (pageN * travelsPerPage > totalTravels) {
+        btnEnd = null;
+        btnForw = null;
+        btnBack = pageN - 1;
+        btnIni = "1";
+    }else {
+        btnForw = pageN + 1;
+        btnEnd = totalTravels / travelsPerPage + ((totalTravels % travelsPerPage) == 0 ? 0 : 1);
+        btnBack = pageN - 1;
+        btnIni = "Adelante &gt;";
+    }
+    return {btnIni, btnBack, page, btnForw, btnEnd};
+}
+
+async function isPage(page) {
+    let totalTravels = await models.viajes.count();
+    let lastPage = parseInt(totalTravels / travelsPerPage) + ((totalTravels % travelsPerPage) == 0 ? 0 : 1);
+    return page <= lastPage;
+}
+
 module.exports = {
+    travelsPerPage,
     getTravels,
     getTravel,
     addTravel,
@@ -141,5 +172,8 @@ module.exports = {
     addMainImg,
     updateTravelNallImgs,
     updateTravelNmainImg,
-    updateMainImg
+    updateMainImg,
+    travelNoMainImg,
+    pagination,
+    isPage
 }

@@ -3,7 +3,7 @@ function isAdmin(req, res, next) {
     if (req.session.rol == "administrador") {
         next();
     }else {
-        res.status(400).send("You are not welcome");
+        res.status(400).send("Authorized personnel only");
     }
 }
 
