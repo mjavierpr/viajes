@@ -1,4 +1,4 @@
-window.addEventListener('load', () => btnSubmit.addEventListener('click', validFields));
+btnSubmit.addEventListener('click', validFields);
 
 function validFields() {
     let usuario = document.getElementsByName('usuario')[0].value;

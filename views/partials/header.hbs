@@ -1,14 +1,23 @@
 <header>
     <div class="logo">
-        <h1>Viajes</h1>
+        <a href="/p/1"><h1>Viajes</h1></a>
     </div>
     <nav>
         {{#if isAdmin}}
-            <a href="http://localhost:3000/editar-viaje/{{travel.id}}"><i class="fa fa-edit"></i>&nbsp; Editar viaje</a>
+            <a href="/usuarios/lista"><i class="fa fa fa-users"></i>&nbsp; Lista usuarios</a>
+            <a href="/crear-viaje"><i class="fa fa-plus-square-o"></i>&nbsp; Crear viaje</a>
         {{/if}}
-        <a href="http://localhost:3000/p/1"><i class="fa fa-home"></i>&nbsp; Inicio</a>
-        {{#if isSession}}
-            <a href="http://localhost:3000/viajes/carrito" class="cart"><i class="fa fa-shopping-cart"></i><span class="numCart">{{itemsCart}}</span><span class="textCart">Carrito</span></a>
+        {{#if editTravel}}
+            <a href="/editar-viaje/{{travel.id}}"><i class="fa fa-edit"></i>&nbsp; Editar viaje</a>
         {{/if}}
+        {{#if userName}}
+            <a href="/usuarios/datos-usuario"><i class="fa fa-user"></i>&nbsp; {{userName}}</a>
+            <a href="/usuarios/logout"><i class="fa fa-sign-out"></i>&nbsp; Cerrar sesión</a>
+        {{else}}
+            <a href="/usuarios/registrar"><i class="fa fa-user-plus"></i>&nbsp; Registro</a>
+            <a href="/usuarios/login"><i class="fa fa-user-secret"></i>&nbsp;Identificación</a>
+        {{/if}}
+        <a href="/viajes/carrito" class="cart"><i class="fa fa-shopping-cart"></i><span id="numCart">{{itemsCart}}</span><span class="textCart">Carrito</span></a>
     </nav>
 </header>
+<script src="/js/header.js"></script>

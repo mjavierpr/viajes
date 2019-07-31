@@ -1,15 +1,13 @@
-window.addEventListener('load', () => {
-    let elem;
-    for (elem of document.getElementsByName('role')) {
-        elem.addEventListener('change', handleChangeRole);
-    }
-    for (elem of document.getElementsByName('active')) {
-        elem.addEventListener('change', handleChangeActive);
-    }
-    for (elem of document.getElementsByName('sendMail')) {
-        elem.addEventListener('click', handleClickMail);
-    }
-});
+let elem;
+for (elem of document.getElementsByName('role')) {
+    elem.addEventListener('change', handleChangeRole);
+}
+for (elem of document.getElementsByName('active')) {
+    elem.addEventListener('change', handleChangeActive);
+}
+for (elem of document.getElementsByName('sendMail')) {
+    elem.addEventListener('click', handleClickMail);
+}
 
 async function handleChangeRole(event) {
     let select = event.currentTarget;

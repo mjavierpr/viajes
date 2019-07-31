@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const usersController = require('../controllers/users');
+const travelsController = require('../controllers/travels');
 const { isAdmin } = require("../middlewares/isAdmin");
 
 router.get('/', function (req, res) {
@@ -27,24 +28,43 @@ router.post('/registrar', async (req, res) => {
   }
 });
 
-router.get('/login', (req, res) => {
+router.get('/login/:compra?', (req, res) => {
   if (req.session.name) {
-    res.redirect('/');
+    if (req.params.compra) {
+      res.redirect('/viajes/compra');
+    } else {
+      res.redirect('/');
+    }
   } else {
-    res.render('users/login', { title: "Identificación" });
+    let buy = req.params.compra == "compra" ? "yes" : "no";
+    res.render('users/login', { title: "Identificación", buy });
   }
 });
 
 router.post('/login', async (req, res) => {
-  let { email, password } = req.body;
+  let { email, password, cartStorage, buy } = req.body;
   let resReg = await usersController.checkRegister(email, password);
   if (typeof resReg === "object") {
     req.session.email = resReg.email;
     req.session.name = resReg.usuario;
     req.session.rol = resReg.rol;
     req.session.userId = resReg.id;
-    //req.session.logginDate = new Date();
-    res.redirect('/');
+    // req.session.logginDate = new Date();
+    let cartToSync = await usersController.syncStorageDb(resReg.id, cartStorage);
+    if (cartToSync) {
+      res.render('users/loginCartjs', { cart: cartToSync, buy });
+    } else {
+      if (buy == "yes") {
+        let cart = await travelsController.getCartFromDb(resReg.id);
+        if (cart.length) {
+          res.redirect('/viajes/compra');
+        } else {
+          res.render('travels/cart', {title: "Carrito", msg: "No tienes ningún viaje en el carrito"});
+        }
+      } else {
+        res.redirect('/');
+      }
+    }
   } else {
     req.flash('errors', resReg);
     res.render('users/login', { title: "Identificación", error: req.flash('errors'), email });
@@ -124,9 +144,10 @@ router.post('/recuperar-datos/cambiar-consigna', async (req, res) => {
 router.get('/lista', isAdmin, async (req, res) => {
   let users = await usersController.getUsers();
   if (users) {
+    let userName = req.session.name;
     let usersmap = usersController.usersMap(users);
-    res.render('users/list', { title: "Lista", users: usersmap});
-  }else {
+    res.render('users/list', { title: "Lista", users: usersmap, userName});
+  } else {
     res.render('users/listEnd', { title: "Lista", error: "Error al acceder a la base de datos" });
   }
 });
@@ -135,7 +156,7 @@ router.get('/lista/cambiar-rol/:id/:role', isAdmin, async (req, res) => {
   let changes = await usersController.changeRol(req.params.id, req.params.role);
   if (changes) {
     res.send('ok');
-  }else {
+  } else {
     res.send('error');
   }
 });
@@ -144,7 +165,7 @@ router.get('/lista/cambiar-activo/:id/:active', isAdmin, async (req, res) => {
   let changes = await usersController.changeActive(req.params.id, req.params.active);
   if (changes) {
     res.send('ok');
-  }else {
+  } else {
     res.send('error');
   }
 });
@@ -153,7 +174,7 @@ router.get('/lista/enviar-mail/:email', isAdmin, async (req, res) => {
   let mail = await usersController.emailRecovery2(req.params.email);
   if (mail) {
     res.send('ok');
-  }else {
+  } else {
     res.send('error');
   }
 });

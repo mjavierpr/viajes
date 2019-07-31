@@ -1,4 +1,4 @@
-window.addEventListener('load', () => btnSubmit.addEventListener('click', validFields));
+btnSubmit.addEventListener('click', validFields);
 
 function validFields() {
     let password = document.getElementsByName('password')[0].value;

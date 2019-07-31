@@ -1,8 +1,6 @@
-window.addEventListener('load', () => {
-	btnSubmit.addEventListener('click', validFields);
-	document.getElementsByName("newOrChoose")[0].addEventListener('change', disableOrNot);
-	document.getElementsByName("newOrChoose")[1].addEventListener('change', disableOrNot);
-});
+btnSubmit.addEventListener('click', validFields);
+document.getElementsByName("newOrChoose")[0].addEventListener('change', disableOrNot);
+document.getElementsByName("newOrChoose")[1].addEventListener('change', disableOrNot);
 
 function validFields() {
 	let fields = document.getElementsByClassName("fields");

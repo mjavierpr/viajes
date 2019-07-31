@@ -1,7 +1,7 @@
 {{> header}}
 <div class="contenedor center">
     {{#if users}}
-        <form action="/usuarios/lista" method="post" class="large">
+        <form action="/usuarios/lista" method="post" class="showList large">
             <div class="formtit">Listado de usuarios</div>
             <div class="tableu">
                 <div class="rowu capt">
@@ -30,11 +30,11 @@
                         <div class="cellu">
                             <button name="sendMail" class={{id}}>Enviar</button>
                         </div>
-                        <input type="text" id="rol{{id}}" hidden="hidden" value={{rolIni}}>
-                        <input type="text" id="act{{id}}" hidden="hidden" value={{actIni}}>
-                        <input type="text" id="user{{id}}" hidden="hidden" value={{usuario}}>
-                        <input type="text" id="id{{id}}" hidden="hidden" value={{id}}>
-                        <input type="text" id="mail{{id}}" hidden="hidden" value={{email}}>
+                        <input type="hidden" id="rol{{id}}" value={{rolIni}}>
+                        <input type="hidden" id="act{{id}}" value={{actIni}}>
+                        <input type="hidden" id="user{{id}}" value={{usuario}}>
+                        <input type="hidden" id="id{{id}}" value={{id}}>
+                        <input type="hidden" id="mail{{id}}" value={{email}}>
                     </div>                    
                 {{/each}}
             </div>

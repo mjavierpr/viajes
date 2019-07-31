@@ -1,0 +1,62 @@
+{{> header}}
+<div class="contenedor center">
+    {{#if msg}}
+        <div class="text-info">{{msg}}</div>
+    {{else}}
+        <form class="showList">
+            <div class="formtit">Compra</div>
+            <div class="tableu">
+                <div class="rowu capt">
+                    <div class="cellu">Viaje</div>
+                    <div class="cellu">Precio</div>
+                    <div class="cellu">Personas</div>
+                    <div class="cellu">Precio total</div>
+                </div>
+                {{#each cart}}
+                    <div class="rowu">
+                        <div class="cellu"><a href="/detalle/{{id}}">{{destino}}</a></div>
+                        <div class="cellu">{{precio}}</div>
+                        <div class="cellu">{{personas}}</div>
+                        <div class="cellu prize">{{total}}</div>
+                    </div>
+                {{/each}}
+                <div class="rowu">&nbsp;</div>
+                <div class="rowu">
+                    <div class="cellu"></div>
+                    <div class="cellu"></div>
+                    <div class="cellu">Total:</div>
+                    <div class="cellu"><span id="total"></span></div>
+                </div>
+            </div>
+            <div class="pay">
+                <div>
+                    <span>Escoge método de pago:</span>
+                </div>
+                <div>
+                    <label><input type="radio" name="paymethod" value="paypal" checked="true"> &nbsp;Paypal &nbsp;</label>
+                    <label><input type="radio" name="paymethod" value="tarjeta" checked="true"> &nbsp;Tarjeta crédito &nbsp;</label>
+                    <label><input type="radio" name="paymethod" value="transferencia" checked="true"> &nbsp;Transferencia</label>
+                </div>
+                <div>
+                    <label>Nombre:
+                        <input type="text" name="nombre">
+                    </label>
+                </div>
+                <div>
+                    <label>Apellidos:
+                        <input type="text" name="apellidos">
+                    </label>
+                </div>
+                <div>
+                    <label>Dirección:
+                        <input type="text" name="direccion">
+                    </label>
+                </div> 
+            </div>                       
+            <div>
+			    <button type="button" class="btn btn-success" id="btnSubmit">Realizar pago&nbsp; <i class="fa fa-credit-card"></i></button>
+		    </div>
+        </form>
+    {{/if}}
+</div>
+<script src="/js/buy.js"></script>

@@ -3,24 +3,36 @@
     {{#if msg}}
         <div class="text-info">{{msg}}</div>
     {{else}}
-        <form class="showCart">
+        <form class="showList">
             <div class="formtit">Tu carrito</div>
             <div class="tableu">
                 <div class="rowu capt">
                     <div class="cellu">Viaje</div>
                     <div class="cellu">Precio</div>
                     <div class="cellu">Personas</div>
-                    <div class="cellu">Precio total</div>
+                    <div class="cellu">Precio</div>
                 </div>
                 {{#each cart}}
                     <div class="rowu">
                         <div class="cellu"><a href="/detalle/{{id}}">{{destino}}</a></div>
                         <div class="cellu">{{precio}}</div>
                         <div class="cellu">{{personas}}</div>
-                        <div class="cellu">{{total}}</div>
+                        <div class="cellu prize">{{total}}</div>
                     </div>
                 {{/each}}
+                <div class="rowu">&nbsp;</div>
+                <div class="rowu">
+                    <div class="cellu"></div>
+                    <div class="cellu"></div>
+                    <div class="cellu">Total:</div>
+                    <div class="cellu"><span id="total"></span></div>
+                </div>
             </div>
+            <input type="hidden" name="isSession" value="{{isSession}}">
+            <div>
+			    <button type="button" class="btn btn-success" id="btnSubmit">Realizar compra&nbsp; <i class="fa fa-thumbs-o-up"></i></button>
+		    </div>
         </form>
     {{/if}}
 </div>
+<script src="/js/cart.js"></script>

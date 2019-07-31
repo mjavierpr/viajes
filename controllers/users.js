@@ -1,4 +1,4 @@
-const models = require('../models');  // conexión a la bbdd
+const models = require('../models');
 const bcrypt = require('bcrypt');
 const SALT_ROUNDS = 10;
 const emailUtils = require('../utils/email');
@@ -164,7 +164,7 @@ async function emailRecovery(email) {
             } else {
                 msg = "El email no existe en la base de datos";
             }  
-        }else {
+        } else {
             msg = "Error al enviar email";
         }
     } catch {
@@ -229,7 +229,7 @@ async function changeRol(userId, newRole) {
             { where: { id: userId } }
         );
         return 'ok';
-    }catch {
+    } catch {
         return null;
     }
 }
@@ -241,7 +241,7 @@ async function changeActive(userId, newActiv) {
             { where: { id: userId } }
         );
         return 'ok';
-    }catch {
+    } catch {
         return null;
     }
 }
@@ -250,9 +250,33 @@ async function emailRecovery2(email) {
     try {
         msg = await emailRecovery(email);
         return msg == "" ? 'ok' : null;
-    }catch {
+    } catch {
         return null;
     }
+}
+
+async function syncStorageDb(userId, cart) {
+    cart = cart == "" || cart == "undefined" ? [] : JSON.parse(cart);
+    let cartStorage;
+    if (cart.length) {
+        await models.carrito.destroy({
+            where: { usuarioId: userId }
+        });
+        let cartMap = cart.map(item => {
+            return {...item, usuarioId : userId};
+        });
+        await models.carrito.bulkCreate(cartMap);
+        cartStorage = null;
+    } else {
+        let items = await models.carrito.findAll(
+            { where: { usuarioId : userId }
+        });
+        cartStorage = items.map(item => {
+            return { personas: item.personas, viajeId: item.viajeId} ;
+        });
+        cartStorage = JSON.stringify(cartStorage);
+    }
+    return cartStorage;
 }
 
 module.exports = {
@@ -264,10 +288,11 @@ module.exports = {
     existsKeyRecovery,
     activateUser,
     emailRecovery,
+    emailRecovery2,
     updatePassword,
     getUsers,
     usersMap,
     changeRol,
     changeActive,
-    emailRecovery2
+    syncStorageDb
 }

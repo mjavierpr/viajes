@@ -1,8 +1,8 @@
 const models = require('../models');
 
-let travelsPerPage = 3;
+let travelsPerPage = 4;
 
-async function getTravels(offset, num = traveslPerPage, condition) {
+async function getTravels(offset, num = travelsPerPage, condition) {
     try {
         let travels = await models.viajes.findAll({
             where: condition,
@@ -15,7 +15,7 @@ async function getTravels(offset, num = traveslPerPage, condition) {
             limit: num, offset: offset
         });
         return travels;
-    }catch {
+    } catch {
         return null;
     }
 }
@@ -34,7 +34,7 @@ async function getTravel(id) {
             ]
         });
         return travel;
-    }catch {
+    } catch {
         return null;
     }
 }
@@ -52,7 +52,7 @@ async function addTravel(travel, userId, files) {
             { include: [models.imagenes] }
         );
         return newTravel ? newTravel : null;
-    }catch {
+    } catch {
         return null;
     }
 }
@@ -66,7 +66,7 @@ async function getImages(id) {
             }
         );
         return row;
-    }catch {
+    } catch {
         return null;
     }
 }
@@ -78,7 +78,7 @@ async function addMainImg(imgId, travelId) {
             viajeId: travelId
         });
         return row;
-    }catch {
+    } catch {
         return null;
     }
 }
@@ -130,7 +130,7 @@ async function updateMainImg(imgId, travelId) {
             row = addMainImg(imgId, travelId);
         }      
         return row;
-    }catch {
+    } catch {
         return row;
     }
 }
@@ -148,12 +148,12 @@ async function pagination(page) {
         btnBack = null;
         btnForw = pageN + 1;
         btnEnd = parseInt(totalTravels / travelsPerPage) + ((totalTravels % travelsPerPage) == 0 ? 0 : 1);
-    }else if (pageN * travelsPerPage >= totalTravels) {
+    } else if (pageN * travelsPerPage >= totalTravels) {
         btnEnd = null;
         btnForw = null;
         btnBack = pageN - 1;
         btnIni = "1";
-    }else {
+    } else {
         btnForw = pageN + 1;
         btnEnd = totalTravels / travelsPerPage + ((totalTravels % travelsPerPage) == 0 ? 0 : 1);
         btnBack = pageN - 1;
@@ -168,18 +168,16 @@ async function isPage(page) {
     return page <= lastPage;
 }
 
-async function addCart(idTravel, userId, persons) {
-    let newItem = await models.carrito.create(
-        {
-            personas: persons,
-            usuarioId: userId,
-            viajeId: idTravel
-        }
-    );
+async function addCart(idTravel, persons, userId) {
+    let newItem = await models.carrito.create({
+        viajeId: idTravel,
+        personas: persons,
+        usuarioId: userId
+    });
     return newItem ? newItem : "Error al actualizar carrito";
 }
 
-async function getCart(userId) {
+async function getCartFromDb(userId) {
     try {
         let cart = await models.carrito.findAll({
             attributes: ['personas', 'viajeId'],
@@ -194,18 +192,36 @@ async function getCart(userId) {
             return totalCart;
         }));
         return totalCart ? totalCart : null;
-    }catch {
+    } catch {
+        return null;
+    }
+}
+
+async function getCartFromStorage(cart) {
+    try {
+        let totalCart = {};
+        totalCart = await Promise.all(cart.map(async (item) => {
+            let travel = await getTravel(item.viajeId);
+            let {destino, precio, id} = travel;
+            let total = precio * item.personas;
+            totalCart = {...totalCart, destino, precio, personas: item.personas, total, id};
+            return totalCart;
+        }));
+        return totalCart ? totalCart : null;
+    } catch {
         return null;
     }
 }
 
 async function itemsCart(userId) {
-    try {
-        return await models.carrito.count(
-            {where: {usuarioid: userId}}
-        );
-    }catch {
-        return 0;
+    if (userId) {
+        try {
+            return await models.carrito.count(
+                {where: {usuarioid: userId}}
+            );
+        } catch {
+            return 0;
+        }
     }
 }
 
@@ -223,6 +239,7 @@ module.exports = {
     pagination,
     isPage,
     addCart,
-    getCart,
+    getCartFromDb,
+    getCartFromStorage,
     itemsCart
 }

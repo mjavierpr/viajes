@@ -1,21 +1,20 @@
 * {margin: 0; padding: 0; box-sizing: border-box; font-family: 'Lato', arial, sans-serif;}
-body {font-size: 1.1em;}
-header {height: 4em; display: flex; justify-content: space-between; padding: 0 1.1em; align-items: center; background-color: #223344; color: #ddd;}
+body {font-size: 1.1em; color: #333;}
+header {height: 4em; display: flex; justify-content: space-between; padding: 0 1.1em; align-items: center; background-color: #223344;}
+header > .logo > a {color: #ddd; text-decoration: none; text-shadow: 1px 2px #47d;}
 header > nav > a {margin-left: 1em; color: #ddd;}
 header > nav > a:hover {color: beige; text-decoration: none; border-bottom: 1px solid #777;}
 header > nav > a.cart > span.textCart {padding-left: 1em;}
-header > nav > a.cart > span.numCart {position: absolute; margin: -0.4em 0 0 -0.1em; font-size: 0.7em; background-color: #edd; color: #333; border-radius:50%; padding: 0 0.4em;}
-form {margin: 3em auto 2em auto; padding-bottom: 1em; width: 55%; display: flex; flex-direction: column; background-color: beige;}
-form.large {width: 70%;}
+header > nav > a.cart > span#numCart {position: absolute; margin: -0.4em 0 0 -0.1em; font-size: 0.7em; background-color: #edd; color: #333; border-radius:50%; padding: 0 0.4em;}
+form {margin: 2.5em auto 2em auto; padding-bottom: 1em; width: 60%; display: flex; flex-direction: column; background-color: rgb(238, 238, 236);}
+form.large {width: 75%;}
 form.carrito {width: 100%; display: block; padding: 1em;}
-div.formtit {font-style: italic; margin-bottom: 1.1em; padding: 0.1em 0.7em; background-color: #e5f0f1;}
-form > div {display: flex; justify-content: center; padding: 5px 0; background-color: beige;}
+div.formtit {font-style: italic; margin-bottom: 1.1em; padding: 0.2em 0.7em; background-color: #98a0a0; color: #eee; border-bottom: 1px solid #999;}
+form > div {display: flex; justify-content: center; padding: 5px 0; background-color: rgb(238, 238, 236);}
 form > div > div:first-child {width: 25%; text-align: right; margin-right: 1em;}
 form > div > .large {width: 40%;}
 form > div > div.imgsTravels {margin-top: 1em;}
 form button {margin-top: 2em;}
-form button[name="sendMail"] {margin: 0; padding: 0 0.8em; margin-bottom: 0.05em; border: 1px solid #ccc; background-color: white;}
-form button[name="sendMail"]:hover {background-color: #eef;}
 div#msgError {text-align: center;}
 
 div.infoapi {margin: 4em auto 2em auto; display: flex; flex-direction: column; min-height: 71vh; width: 100%; align-items: center;}
@@ -42,10 +41,15 @@ form > div.showImages {display: flex; justify-content: space-around; flex-wrap: 
 form > div.showImages > label.cardImage {width: 22%; margin: 1.3em 0 0 1em;}
 form > div.showImages > label.cardImage > img {width: 100%;}
 
-div.tableu {display: table; width: 100%; padding-left: 0.8em;}
-div.tableu > div.rowu {display: table-row;}
-div.tableu > div.capt {font-weight: bold;}
-div.tableu > div.rowu > div.cellu {display: table-cell; text-align: left;}
+.showList div.tableu {display: table; width: 100%; padding-left: 0.8em;}
+.showList div.tableu > div.rowu {display: table-row;}
+.showList div.tableu > div.capt {font-weight: bold;}
+.showList div.tableu > div.rowu > div.cellu {display: table-cell; text-align: left; padding: 0.2em 0;}
+.showList div.tableu > div.rowu > div.cellu > #total {font-weight: bold; font-size: 1.1em; padding: 0.4em; background-color: #ffffff; border: 1px solid #bbb; margin: 0.7em 0;}
+.showList div.tableu > div.rowu > div.cellu > button[name="sendMail"] {margin: 0; padding: 0 0.8em; margin-bottom: 0.05em; border: 1px solid #ccc; background-color: white;}
+.showList div.tableu > div.rowu > div.cellu > button[name="sendMail"]:hover {background-color: rgb(143, 145, 162); color: #fff;}
+.showList div.pay {background-color: #f3f3f3; padding: 0.7em 0; margin-top: 1em; flex-direction: column; border-top: 1px solid #999; border-bottom: 1px solid #999;}
+.showList div.pay > div {width: 100%; text-align: center; margin: 0.3em 0;}
 
 div.pageForwBack {margin: 2em 0 3em 2.2em; display: flex; justify-content: center; align-items: center;}
 div.pageForwBack > a {background-color: #f2f5f8; border-radius: 4px 4px 4px 4px; border: 1px solid #b2b3b3; margin: 0 0.4em; padding: 6px 14px; text-decoration: none;}

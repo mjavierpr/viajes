@@ -12,16 +12,14 @@
                 <div class='travel'>
                     <img src="/uploads/{{imagenPrincipal.imagene.imagen}}" alt="{{destino}}" class="zoom">
                     <div>
-                        <div>Precio: <span class="precio">{{precio}}</span><span class="space"></span><span class="descuento">{{descuento}}</span></div>
+                        <div>Precio: <span class="precio">{{putDot precio}}</span><span class="space"></span><span class="descuento">{{putOldPrice precio descuento}}</span></div>
                         <div>Desde <span class="fecha">{{../dateIni}}</span> hasta <span class="fecha">{{../dateEnd}}</span></div>
                         <div>{{descripcion}}</div>
-                        {{#if ../isSession}}
-                            <form action="/viajes/agregar-carrito" method="post" class="carrito">
-                                <label>Número personas: <input type="number" name="persons" value="1" min="1"></label>                            
-                                <button><i class="fa fa-cart-plus"></i>&nbsp; Añadir al carrito</button>
-                                <input type="text" value="{{id}}" name="idTravel" hidden="hidden">
-                            </form>
-                        {{/if}}
+                        <form action="/viajes/agregar-carrito" method="post" class="carrito">
+                            <label>Número personas: <input type="number" name="persons" value="1" min="1"></label>
+                            <input type="hidden" value="{{id}}" name="idTravel">
+                            <button type="button" id="btnSubmit"><i class="fa fa-cart-plus"></i>&nbsp; Añadir al carrito</button>                           
+                        </form>
                     </div>
                 </div>
                 <div class="images">
@@ -37,11 +35,12 @@
             * {{error2}}
         {{/if}}
     </div>
-    {{#if success}}
-        <div class="text-success center">
+    <div class="text-success center" id="msgSuccess">
+        {{#if success}}
             {{success}}
-        </div>
-    {{/if}}    
+        {{/if}}
+    </div>
 </div>
 </div>
-<script src="/js/price.js"></script>
+<script src="/js/detail.js"></script>
+

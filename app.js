@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var exphbars = require('express-handlebars');
 
 var session = require('express-session');
 var flash = require('connect-flash');
@@ -17,6 +18,27 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+app.engine('.hbs', exphbars({
+  defaultLayout: 'layout',
+  layoutsDir: path.join(__dirname, 'views'),
+  partialsDir: path.join(app.get('views'), 'partials'),
+  extname: '.hbs',
+  helpers: {
+    putDot: function (price) {
+      if (price.length > 3) {
+        price = price.slice(0, 1) + '.' + price.slice(1);
+      }
+      return price + " €";
+    },
+    putOldPrice: function (price, discount) {
+      price = (Number(price) * (100 + Number(discount)) / 100).toFixed(0);
+      if (price.length > 3) {
+        price = price.slice(0, 1) + '.' + price.slice(1);
+      }
+      return price + " €";
+    }
+  }
+}))
 
 var hbs = require('hbs');
 hbs.registerPartials(__dirname + '/views/partials');

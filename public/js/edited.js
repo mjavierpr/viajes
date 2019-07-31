@@ -1,4 +1,4 @@
-window.addEventListener('load', () => btnSubmit.addEventListener('click', validImg));
+btnSubmit.addEventListener('click', validImg);
 
 function validImg() {
     let radios = document.getElementsByName("mainImgId");
